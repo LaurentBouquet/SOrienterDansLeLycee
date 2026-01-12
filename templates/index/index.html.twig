@@ -1,0 +1,180 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello IndexController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Hello {{ controller_name }}! ✅</h1>
+
+    This friendly message is coming from:
+    <ul>
+        <li>Your controller at <code>/home/kylian/Code/SOrienterDansLeLycee/src/Controller/IndexController.php</code></li>
+        <li>Your template at <code>/home/kylian/Code/SOrienterDansLeLycee/templates/index/index.html.twig</code></li>
+    </ul>
+
+    <hr>
+
+    <h1>Test Bootstrap</h1>
+    <button type="button" class="btn btn-primary">Primary Button</button>
+
+        <h2>Bootstrap Alerts</h2>
+        <div class="alert alert-success" role="alert">This is a success alert—check it out!</div>
+        <div class="alert alert-danger" role="alert">This is a danger alert—check it out!</div>
+        <div class="alert alert-warning" role="alert">This is a warning alert—check it out!</div>
+
+        <h2>Bootstrap Card</h2>
+        <div class="card" style="width: 18rem;">
+            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+
+        <h2>Bootstrap Form</h2>
+        <form>
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1">
+            </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+
+        <h2>Bootstrap Grid</h2>
+        <div class="row">
+            <div class="col-sm-4">Column 1</div>
+            <div class="col-sm-4">Column 2</div>
+            <div class="col-sm-4">Column 3</div>
+        </div>
+
+        <h2>Bootstrap Spinner</h2>
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+
+        <h2>FontAwesome Icons</h2>
+        <i class="fas fa-check-circle fa-2x text-success"></i>
+        <i class="fas fa-exclamation-triangle fa-2x text-warning"></i>
+        <i class="fas fa-times-circle fa-2x text-danger"></i>
+        <i class="fab fa-github fa-2x"></i>
+        <i class="fas fa-spinner fa-spin fa-2x"></i>    
+</div>
+
+<div class="example-wrapper">
+        <h2>Bootstrap Dropdown</h2>
+        <div class="dropdown mb-3">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown button
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+        </div>
+
+        <h2>Bootstrap Modal</h2>
+        <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Launch demo modal
+        </button>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        This is a Bootstrap modal!
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>Bootstrap Collapse</h2>
+        <p>
+            <a class="btn btn-info mb-3" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Toggle Collapse
+            </a>
+        </p>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+                This content is hidden in a collapse.
+            </div>
+        </div>
+
+        <h2>Bootstrap Toast</h2>
+        <button type="button" class="btn btn-warning mb-3" id="showToastBtn">Show Toast</button>
+        <div class="toast align-items-center text-bg-warning border-0" id="liveToast" role="alert" aria-live="assertive" aria-atomic="true" style="position: absolute; top: 2rem; right: 2rem;">
+            <div class="d-flex">
+                <div class="toast-body">
+                    Hello, this is a Bootstrap toast!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+
+        <h2>Bootstrap Tabs</h2>
+        <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Home</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Profile</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Contact</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">Home tab content.</div>
+            <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">Profile tab content.</div>
+            <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">Contact tab content.</div>
+        </div>
+
+        <h2>Bootstrap Offcanvas</h2>
+        <button class="btn btn-dark mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+            Open Offcanvas
+        </button>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div>
+                    Some text as placeholder. In offcanvas you can place just about any Bootstrap component or custom elements.
+                </div>
+            </div>
+        </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var toastTrigger = document.getElementById('showToastBtn');
+        var toastLiveExample = document.getElementById('liveToast');
+        if (toastTrigger && toastLiveExample) {
+            toastTrigger.addEventListener('click', function () {
+                var toast = new bootstrap.Toast(toastLiveExample);
+                toast.show();
+            });
+        }
+    });
+</script>
+</div>
+{% endblock %}

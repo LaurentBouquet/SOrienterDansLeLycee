@@ -1,3 +1,8 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '@fortawesome/fontawesome-free/css/all.css';
+import './styles/app.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
 import './stimulus_bootstrap.js';
 /*
  * Welcome to your app's main JavaScript file!
