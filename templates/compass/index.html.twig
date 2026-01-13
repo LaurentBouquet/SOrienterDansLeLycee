@@ -16,47 +16,26 @@
 
     .compass-wrapper {
         position: relative;
-        width: 240px;
-        height: 240px;
+        width: 280px;
+        height: 280px;
         margin: 20px auto;
     }
 
-    .compass-circle {
+    .compass-bg {
         position: absolute;
         inset: 0;
-        border: 4px solid #0d6efd;
-        border-radius: 50%;
-    }
-
-    .north-label {
-        position: absolute;
-        top: 8px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-weight: bold;
-        color: #0d6efd;
-        font-size: 1.2rem;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: transform 0.2s linear;
     }
 
     .compass-arrow {
         position: absolute;
         top: 50%;
         left: 50%;
-        width: 55px;
-        transform-origin: bottom center;
-        transform: translate(-50%, -50%) rotate(0deg);
-        transition: transform 0.2s linear;
-    }
-
-    .graduation {
-        position: absolute;
-        width: 2px;
-        height: 10px;
-        background-color: #0d6efd;
-        top: 0;
-        left: 50%;
-        margin-left: -1px;
-        transform-origin: 50% 120px;
+        height: 120px;
+        transform: translate(-50%, -50%);
     }
 
     #status {
@@ -64,51 +43,109 @@
         font-size: 14px;
         color: #555;
     }
+
+    .directions {
+        margin-top: 10px;
+        font-size: 16px;
+        font-weight: bold;
+    }
 </style>
 
 <div class="container">
     <h1>Boussole</h1>
 
     <div class="compass-wrapper">
-        <div class="compass-circle"></div>
-        <div class="north-label">N</div>
-
-        <!-- Graduations tous les 30° -->
-        {% for i in 0..11 %}
-            <div class="graduation" style="transform: rotate({{ i*30 }}deg);"></div>
-        {% endfor %}
+        <img
+            id="compass-bg"
+            src="{{ asset('images/compass_bg.png') }}"
+            class="compass-bg"
+            alt="Fond boussole"
+        >
 
         <img
-            id="arrow"
-            src="{{ asset('images/arrow.jpg') }}"
+            src="{{ asset('images/compass_arrow.png') }}"
             class="compass-arrow"
             alt="Flèche boussole"
         >
     </div>
 
     <div id="status">En attente des capteurs…</div>
+    <div class="directions" id="directions">--</div>
+    <button id="enableCompass">Activer la boussole</button>
 </div>
 
 <script>
-    const arrow = document.getElementById('arrow');
+if (event.webkitCompassHeading !== undefined) { 
+    const compassBg = document.getElementById('compass-bg');
     const status = document.getElementById('status');
-
-    window.addEventListener(
-        'deviceorientationabsolute',
-        (event) => {
-            if (event.alpha !== null) {
-                const heading = event.alpha;
-
-                arrow.style.transform =
-                    `translate(-50%, -50%) rotate(${-heading}deg)`;
-
-                status.textContent =
-                    `Degré exact : ${heading.toFixed(1)}° | absolute: ${event.absolute}`;
-            } else {
-                status.textContent = 'Capteur non disponible';
+    const directionsEl = document.getElementById('directions');
+    const btn = document.getElementById('enableCompass');
+    
+    let lastHeading = null;
+    const smoothing = 0.15;
+    
+    // Fonction utilitaire : normaliser l'angle
+    function normalize(angle) {
+        return (angle + 360) % 360;
+    }
+    
+    // Fonction utilitaire : calculer le plus court angle pour le lissage
+    function shortestAngle(from, to) {
+        let diff = to - from;
+        if (diff > 180) diff -= 360;
+        if (diff < -180) diff += 360;
+        return diff;
+    }
+    
+    // Convertit l'angle en lettres N/E/S/O
+    function headingToDirection(angle) {
+        const dirs = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+        const index = Math.round(angle / 45) % 8;
+        return dirs[index];
+    }
+    
+    // Fonction pour mettre à jour la boussole
+    function updateCompass(heading) {
+        if (lastHeading !== null) {
+            const delta = shortestAngle(lastHeading, heading);
+            heading = lastHeading + delta * smoothing;
+        }
+    
+        lastHeading = normalize(heading);
+        compassBg.style.transform = `rotate(${-lastHeading}deg)`;
+    
+        status.textContent = `Nord approx. : ${lastHeading.toFixed(1)}°`;
+        directionsEl.textContent = headingToDirection(lastHeading);
+    }
+    
+    // Activation de la boussole
+    btn.addEventListener('click', async () => {
+        // iOS permission
+        if (
+            typeof DeviceOrientationEvent !== 'undefined' &&
+            typeof DeviceOrientationEvent.requestPermission === 'function'
+        ) {
+            const permission = await DeviceOrientationEvent.requestPermission();
+            if (permission !== 'granted') {
+                status.textContent = 'Permission refusée';
+                return;
             }
-        },
-        true
-    );
+        }
+            // fallback : deviceorientation classique
+            window.addEventListener('deviceorientation', (event) => {
+                let heading = null;
+    
+                // iOS
+                if (event.webkitCompassHeading !== undefined) {
+                    heading = event.webkitCompassHeading;
+                } 
+    
+                if (heading !== null) updateCompass(heading);
+                else status.textContent = 'Capteur non disponible';
+            }, true);
+        btn.style.display = 'none';
+    });
+}
 </script>
+
 {% endblock %}
