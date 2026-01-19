@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connection{% endblock %}
+
+{% block body %}
+    <h1>Connection</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ connection.id }}</td>
+            </tr>
+            <tr>
+                <th>Weight</th>
+                <td>{{ connection.weight }}</td>
+            </tr>
+            <tr>
+                <th>Pmr</th>
+                <td>{{ connection.pmr ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>InstructionAtoB</th>
+                <td>{{ connection.instructionAtoB }}</td>
+            </tr>
+            <tr>
+                <th>InstructionBtoA</th>
+                <td>{{ connection.instructionBtoA }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_connection_index') }}">back to list</a>
+
+    <a href="{{ path('app_connection_edit', {'id': connection.id}) }}">edit</a>
+
+    {{ include('connection/_delete_form.html.twig') }}
+{% endblock %}
