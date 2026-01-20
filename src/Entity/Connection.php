@@ -32,7 +32,7 @@ class Connection
     #[ORM\Column(type: Types::TEXT, name: 'instruction_a_to_b')]
     private ?string $instructionAtoB = null;
 
-    #[ORM\Column(type: Types::TEXT, name: 'instruction_b_to_a')]
+    #[ORM\Column(type: Types::TEXT, name: 'instruction_b_to_a', nullable: true)]
     private ?string $instructionBtoA = null;
 
     public function getId(): ?int
