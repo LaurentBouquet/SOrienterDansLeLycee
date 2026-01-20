@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\LocationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LocationRepository::class)]
@@ -25,6 +27,24 @@ class Location
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $reference = null;
+
+    /**
+     * @var Collection<int, Connection>
+     */
+    #[ORM\OneToMany(targetEntity: Connection::class, mappedBy: 'locationA')]
+    private Collection $connectionA;
+
+    /**
+     * @var Collection<int, Connection>
+     */
+    #[ORM\OneToMany(targetEntity: Connection::class, mappedBy: 'locationB')]
+    private Collection $connectionB;
+
+    public function __construct()
+    {
+        $this->connectionA = new ArrayCollection();
+        $this->connectionB = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -75,6 +95,66 @@ class Location
     public function setReference(?string $reference): static
     {
         $this->reference = $reference;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Connection>
+     */
+    public function getConnectionA(): Collection
+    {
+        return $this->connectionA;
+    }
+
+    public function addConnectionA(Connection $connectionA): static
+    {
+        if (!$this->connectionA->contains($connectionA)) {
+            $this->connectionA->add($connectionA);
+            $connectionA->setLocationA($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConnectionA(Connection $connectionA): static
+    {
+        if ($this->connectionA->removeElement($connectionA)) {
+            // set the owning side to null (unless already changed)
+            if ($connectionA->getLocationA() === $this) {
+                $connectionA->setLocationA(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Connection>
+     */
+    public function getConnectionB(): Collection
+    {
+        return $this->connectionB;
+    }
+
+    public function addConnectionB(Connection $connectionB): static
+    {
+        if (!$this->connectionB->contains($connectionB)) {
+            $this->connectionB->add($connectionB);
+            $connectionB->setLocationB($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConnectionB(Connection $connectionB): static
+    {
+        if ($this->connectionB->removeElement($connectionB)) {
+            // set the owning side to null (unless already changed)
+            if ($connectionB->getLocationB() === $this) {
+                $connectionB->setLocationB(null);
+            }
+        }
 
         return $this;
     }
