@@ -12,16 +12,15 @@ class ConnectionFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $locationRepository = $manager->getRepository(Location::class);
 
         // Get all locations needed for the path
-        $salle22 = $locationRepository->findOneBy(['name' => 'Salle 22']);
-        $couloirPrincipalDroite = $locationRepository->findOneBy(['name' => 'Couloir Principal Droite']);
-        $carrefourDroite = $locationRepository->findOneBy(['name' => 'Carrefour Droite']);
-        $escalierDroite = $locationRepository->findOneBy(['name' => 'Escalier Droite']);
-        $escalierDroiteEtage1 = $locationRepository->findOneBy(['name' => 'Escalier Droite Étage 1']);
-        $couloirSecondaireHautDroiteEtage1 = $locationRepository->findOneBy(['name' => 'Couloir Secondaire Haut Droite Étage 1']);
-        $salle136 = $locationRepository->findOneBy(['name' => 'Salle 136']);
+        $salle22 = $this->getReference(LocationFixtures::SALLE_22_REFERENCE, Location::class);
+        $couloirPrincipalDroite = $this->getReference(LocationFixtures::COULOIR_PRINCIPAL_DROITE_REFERENCE, Location::class);
+        $carrefourDroite = $this->getReference(LocationFixtures::CARREFOUR_DROITE_REFERENCE, Location::class);
+        $escalierDroite = $this->getReference(LocationFixtures::ESCALIER_DROITE_REFERENCE, Location::class);
+        $escalierDroiteEtage1 = $this->getReference(LocationFixtures::ESCALIER_DROITE_ETAGE_1_REFERENCE, Location::class);
+        $couloirSecondaireHautDroiteEtage1 = $this->getReference(LocationFixtures::COULOIR_SECONDAIRE_HAUT_DROITE_ETAGE_1_REFERENCE, Location::class);
+        $salle136 = $this->getReference(LocationFixtures::SALLE_136_REFERENCE, Location::class);
 
         // Connection 1: Salle 22 -> Couloir Principal Droite
         $connection1 = new Connection();

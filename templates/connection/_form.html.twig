@@ -1,4 +1,49 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_row(form.weight) }}
+    {{ form_row(form.pmr) }}
+    {{ form_row(form.floor) }}
+    {{ form_row(form.locationA) }}
+    {{ form_row(form.locationB) }}
+    {{ form_row(form.instructionAtoB) }}
+    {{ form_row(form.instructionBtoA) }}
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
+
+<script>
+    const floorSelect = document.getElementById('{{ form.floor.vars.id }}');
+    const locationASelect = document.getElementById('{{ form.locationA.vars.id }}');
+    const locationBSelect = document.getElementById('{{ form.locationB.vars.id }}');
+
+    const locationAOptions = Array.from(locationASelect.options);
+    const locationBOptions = Array.from(locationBSelect.options);
+    
+    function filterLocationOptions() {
+        const selectedFloor = floorSelect.value;
+        const selectedAType = locationASelect.dataset.type;
+
+        // Filter Location A options
+        locationASelect.innerHTML = '';
+        locationAOptions.forEach(option => {
+            if (option.dataset.floor == selectedFloor || selectedFloor == '') {
+                locationASelect.appendChild(option);
+            }
+        });
+
+        // Filter Location B options
+        locationBSelect.innerHTML = '';
+        locationBOptions.forEach(option => {
+            /*if (option.dataset.type == selectedFloor && selectedAType == 'STAIRS') {
+                locationBSelect.appendChild(option.dataset.type == 'STAIRS');
+            }*/
+            if (option.dataset.floor == selectedFloor || selectedFloor == '') {
+                locationBSelect.appendChild(option);
+            }
+        });
+    }
+
+    floorSelect.addEventListener('change', filterLocationOptions);
+    /*locationASelect.addEventListener('change', filterLocationOptions);*/
+
+    // Initial filtering on page load
+    filterLocationOptions();
+</script>
