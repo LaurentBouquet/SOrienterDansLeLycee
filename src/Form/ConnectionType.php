@@ -26,7 +26,8 @@ class ConnectionType extends AbstractType
                 ],
                 'mapped' => false,
                 'required' => false,
-                'placeholder' => 'Sélectionner un étage',
+                // 'expanded' => true,
+                // 'multiple' => false, // Mettre à true pour des cases à cocher 
             ])
             ->add('locationA', EntityType::class, [
                 'class' => Location::class,

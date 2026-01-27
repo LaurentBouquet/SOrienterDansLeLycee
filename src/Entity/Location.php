@@ -40,6 +40,9 @@ class Location
     #[ORM\OneToMany(targetEntity: Connection::class, mappedBy: 'locationB')]
     private Collection $connectionB;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
     public function __construct()
     {
         $this->connectionA = new ArrayCollection();
@@ -155,6 +158,18 @@ class Location
                 $connectionB->setLocationB(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }

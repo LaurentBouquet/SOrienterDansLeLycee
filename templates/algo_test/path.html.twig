@@ -3,5 +3,24 @@
 {% block title %}Get Path{% endblock %}
 
 {% block body %}
-    <h1>Get Path</h1>
+    <h1>Chemin trouvé</h1>
+    
+    {% if path is not empty %}
+        <div class="path-container">
+            <ol>
+                {% for step in path %}
+                    <li>
+                        <strong>{{ step.location }}</strong>
+                        {% if step.instruction %}
+                            <p><em>{{ step.instruction }}</em></p>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
+    {% else %}
+        <p>Aucun chemin trouvé.</p>
+    {% endif %}
+    
+    <a href="{{ path('app_algo_new') }}" class="btn btn-primary mt-3">Chercher un autre chemin</a>
 {% endblock %}

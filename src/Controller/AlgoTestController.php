@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\AlgoTestType;
 use App\Repository\ConnectionRepository;
+use App\Repository\LocationRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -12,10 +13,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class AlgoTestController extends AbstractController
 {
     private ConnectionRepository $connectionRepository;
+    private LocationRepository $locationRepository;
 
-    public function __construct(ConnectionRepository $connectionRepository)
+    public function __construct(ConnectionRepository $connectionRepository, LocationRepository $locationRepository)
     {
         $this->connectionRepository = $connectionRepository;
+        $this->locationRepository = $locationRepository;
     }
 
     #[Route('/algo/new', name: 'app_algo_new', methods: ['GET', 'POST'])]
@@ -30,7 +33,11 @@ final class AlgoTestController extends AbstractController
             $end = $data['end']->getName();
 
             $graph = $this->getGraph();
-            $path = $this->dijkstra($graph, $start, $end);
+            $pathLocations = $this->dijkstra($graph, $start, $end);
+            $path = $this->addInstructionsToPath($pathLocations);
+            
+            // Store path in session
+            $request->getSession()->set('path', $path);
             
             return $this->redirectToRoute('app_algo_path', ['path' => $path], Response::HTTP_SEE_OTHER);
         }
@@ -41,12 +48,8 @@ final class AlgoTestController extends AbstractController
     }
 
     #[Route('/algo/path', name: 'app_algo_path', methods: ['GET'])]
-    public function path(): Response {
-        $path = $_GET['path'];
-
-        if ($path) {
-            echo "path is: ".implode(", ", $path)."\n";
-        }
+    public function path(Request $request): Response {
+        $path = $request->getSession()->get('path', []);
 
         return $this->render('algo_test/path.html.twig', [
             'path' => $path,
@@ -106,6 +109,46 @@ final class AlgoTestController extends AbstractController
         return $path;
     }
 
+    function addInstructionsToPath($pathLocations) {
+        $pathInstructions = [];
+        
+        for ($i = 0; $i < count($pathLocations) - 1; $i++) {
+            $currentLocation = $pathLocations[$i];
+            $nextLocation = $pathLocations[$i + 1];
+            
+            // Find the connection between current and next location
+            $connections = $this->connectionRepository->findAll();
+            $instruction = '';
+            
+            foreach ($connections as $connection) {
+                $locAName = $connection->getLocationA()->getName();
+                $locBName = $connection->getLocationB()->getName();
+                
+                if (($locAName === $currentLocation && $locBName === $nextLocation) || 
+                    ($locAName === $nextLocation && $locBName === $currentLocation)) {
+                    
+                    if ($locAName === $currentLocation && $locBName === $nextLocation) {
+                        $instruction = $connection->getInstructionAtoB();
+                    } else {
+                        $instruction = $connection->getInstructionBtoA();
+                    }
+                }
+            }
+            
+            $pathInstructions[] = [
+                'location' => $currentLocation,
+                'instruction' => $instruction,
+            ];
+        }
+         
+        $pathInstructions[] = [
+            'location' => end($pathLocations),
+            'instruction' => null,
+        ];
+        
+        return $pathInstructions;
+    }
+
     function getGraph()
     {
         $connections = $this->connectionRepository->findAll();
@@ -115,7 +158,7 @@ final class AlgoTestController extends AbstractController
             $graph_array[] = array(
                 $connection->getLocationA()->getName(),
                 $connection->getLocationB()->getName(),
-                $connection->getWeight()
+                $connection->getWeight(),
             );
         }
         
