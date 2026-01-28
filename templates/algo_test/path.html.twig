@@ -12,7 +12,10 @@
                     <li>
                         <strong>{{ step.location }}</strong>
                         {% if step.instruction %}
-                            <p><em>{{ step.instruction }}</em></p>
+                            <p>{{ step.instruction }}</p>
+                        {% endif %}
+                        {% if step.image %}
+                            <img src="{{ asset('images/' ~ step.image) }}">
                         {% endif %}
                     </li>
                 {% endfor %}

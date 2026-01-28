@@ -34,12 +34,13 @@ final class AlgoTestController extends AbstractController
 
             $graph = $this->getGraph();
             $pathLocations = $this->dijkstra($graph, $start, $end);
-            $path = $this->addInstructionsToPath($pathLocations);
+            $pathInstructions = $this->addInstruction($pathLocations);
+            $pathImages = $this->addImage($pathInstructions);
             
             // Store path in session
-            $request->getSession()->set('path', $path);
+            $request->getSession()->set('path', $pathImages);
             
-            return $this->redirectToRoute('app_algo_path', ['path' => $path], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_algo_path', ['path' => $pathImages], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('algo_test/new.html.twig', [
@@ -109,14 +110,13 @@ final class AlgoTestController extends AbstractController
         return $path;
     }
 
-    function addInstructionsToPath($pathLocations) {
+    function addInstruction($pathLocation) {
         $pathInstructions = [];
         
-        for ($i = 0; $i < count($pathLocations) - 1; $i++) {
-            $currentLocation = $pathLocations[$i];
-            $nextLocation = $pathLocations[$i + 1];
+        for ($i = 0; $i < count($pathLocation) - 1; $i++) {
+            $currentLocation = $pathLocation[$i];
+            $nextLocation = $pathLocation[$i + 1];
             
-            // Find the connection between current and next location
             $connections = $this->connectionRepository->findAll();
             $instruction = '';
             
@@ -124,8 +124,7 @@ final class AlgoTestController extends AbstractController
                 $locAName = $connection->getLocationA()->getName();
                 $locBName = $connection->getLocationB()->getName();
                 
-                if (($locAName === $currentLocation && $locBName === $nextLocation) || 
-                    ($locAName === $nextLocation && $locBName === $currentLocation)) {
+                if (($locAName === $currentLocation && $locBName === $nextLocation) || ($locAName === $nextLocation && $locBName === $currentLocation)) {
                     
                     if ($locAName === $currentLocation && $locBName === $nextLocation) {
                         $instruction = $connection->getInstructionAtoB();
@@ -142,11 +141,37 @@ final class AlgoTestController extends AbstractController
         }
          
         $pathInstructions[] = [
-            'location' => end($pathLocations),
+            'location' => end($pathLocation),
             'instruction' => null,
         ];
         
         return $pathInstructions;
+    }
+
+    function addImage($pathInstruction) {
+        $pathImages = [];
+
+        for ($i = 0; $i < count($pathInstruction); $i++) {
+            $currentLocation = $pathInstruction[$i]['location'];
+            $currentInstruction = $pathInstruction[$i]['instruction'];
+            
+            $locationName = $pathInstruction[$i]['location'];
+
+            $location = $this->locationRepository->findOneBy(['name' => $locationName]);
+            $image = '';
+
+            if ($location) {
+                $image = $location->getImage();
+            }
+
+            $pathImages[] = [
+                'location' => $currentLocation,
+                'instruction' => $currentInstruction,
+                'image' => $image,
+            ];
+        }
+
+        return $pathImages;
     }
 
     function getGraph()

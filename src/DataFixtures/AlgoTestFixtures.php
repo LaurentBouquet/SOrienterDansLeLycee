@@ -46,6 +46,7 @@ class AlgoTestFixtures extends Fixture
             $location->setName("Point $letter");
             $location->setType('TEST_NODE');
             $location->setFloor(0);
+            $location->setImage("$letter.jpg"); // Image fictive pour le test
             
             $manager->persist($location);
             
