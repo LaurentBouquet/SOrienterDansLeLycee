@@ -1,4 +1,43 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+    {% if form.imageA is defined %}
+    <div class="mb-3">
+        <label class="form-label">
+            <i class="fa-solid fa-image me-1" aria-hidden="true"></i>
+            Image du lieu
+        </label>
+        {{ form_widget(form.imageA, {
+            attr: {
+                class: 'form-control',
+                onchange: "previewImage(this)"
+            }
+        }) }}
+        {{ form_errors(form.imageA) }}
+        <img id="imagePreview" alt="Aperçu de l'image" class="mt-2 rounded img-preview" />
+    </div>
+    {% endif %}
+
+    {{ form_rest(form) }}
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-check me-2" aria-hidden="true"></i>
+            {{ button_label|default('Enregistrer') }}
+        </button>
+    </div>
 {{ form_end(form) }}
+
+{% if form.imageA is defined %}
+<script>
+    function previewImage(input) {
+        const preview = document.getElementById('imagePreview');
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+{% endif %}

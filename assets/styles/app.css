@@ -1,3 +1,345 @@
+/* ==========================================================================
+   S'Orienter Dans Le Lycée - Global Base Styles
+   ========================================================================== */
+
+/* ==========================================================================
+   1. CSS Custom Properties (Color System)
+   ========================================================================== */
+
+:root {
+    /* Primary colors */
+    --color-primary: #12a3e4;
+    --color-primary-soft: #a1ddf4;
+    --color-primary-dark: #0e82b6; /* Darker shade for hover states */
+
+    /* Dark tones */
+    --color-dark: #010e32;
+    --color-dark-soft: #373f57;
+
+    /* Background colors */
+    --color-bg: #f2fcfb;
+    --color-bg-muted: #d0d3da;
+
+    /* Text colors */
+    --color-text-muted: #9c9c9b;
+
+    /* Shadows */
+    --shadow-card: 0 2px 8px rgba(1, 14, 50, 0.08);
+    --shadow-card-hover: 0 4px 12px rgba(1, 14, 50, 0.12);
+
+    /* Border radius */
+    --radius-card: 12px;
+    --radius-btn: 6px;
+}
+
+/* ==========================================================================
+   2. Base / Global Styles
+   ========================================================================== */
+
 body {
-    background-color: skyblue;
+    background-color: var(--color-bg);
+    color: var(--color-dark-soft);
+    line-height: 1.6;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ==========================================================================
+   3. Typography
+   ========================================================================== */
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--color-dark);
+    font-weight: 600;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    font-size: 1.75rem;
+    margin-bottom: 0.875rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+h4 {
+    font-size: 1.25rem;
+    margin-bottom: 0.625rem;
+}
+
+h5 {
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+}
+
+h6 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Muted text utility */
+.text-muted {
+    color: var(--color-text-muted) !important;
+}
+
+/* Links */
+a {
+    color: var(--color-primary);
+}
+
+a:hover {
+    color: var(--color-primary-dark);
+}
+
+/* ==========================================================================
+   4. Bootstrap Button Overrides
+   ========================================================================== */
+
+/* Primary button */
+.btn-primary {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+}
+
+.btn-primary:active,
+.btn-primary.active {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+}
+
+/* Outline primary button */
+.btn-outline-primary {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
+}
+
+/* General button styling */
+.btn {
+    border-radius: var(--radius-btn);
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   5. Bootstrap Card Overrides
+   ========================================================================== */
+
+.card {
+    border: none;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    background-color: #fff;
+}
+
+.card:hover {
+    box-shadow: var(--shadow-card-hover);
+}
+
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid var(--color-bg-muted);
+    font-weight: 600;
+    color: var(--color-dark);
+}
+
+.card-footer {
+    background-color: transparent;
+    border-top: 1px solid var(--color-bg-muted);
+}
+
+/* ==========================================================================
+   6. Bootstrap Form Overrides
+   ========================================================================== */
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--color-primary-soft);
+    box-shadow: 0 0 0 0.2rem rgba(18, 163, 228, 0.15);
+}
+
+.form-label {
+    color: var(--color-dark);
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   7. Bootstrap Table Overrides
+   ========================================================================== */
+
+.table {
+    color: var(--color-dark-soft);
+}
+
+.table thead th {
+    color: var(--color-dark);
+    font-weight: 600;
+    border-bottom-color: var(--color-bg-muted);
+}
+
+.table td {
+    border-color: var(--color-bg-muted);
+}
+
+/* ==========================================================================
+   8. Bootstrap Alert Overrides
+   ========================================================================== */
+
+.alert {
+    border-radius: var(--radius-btn);
+    border: none;
+}
+
+.alert-primary {
+    background-color: var(--color-primary-soft);
+    color: var(--color-dark);
+}
+
+/* ==========================================================================
+   9. Bootstrap Navbar Overrides
+   ========================================================================== */
+
+.navbar {
+    background-color: #fff;
+    box-shadow: var(--shadow-card);
+}
+
+.navbar-brand {
+    color: var(--color-dark);
+    font-weight: 600;
+}
+
+.nav-link {
+    color: var(--color-dark-soft);
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--color-primary);
+}
+
+/* ==========================================================================
+   10. Utility Classes
+   ========================================================================== */
+
+/* Background utilities */
+.bg-primary-soft {
+    background-color: var(--color-primary-soft) !important;
+}
+
+.bg-muted {
+    background-color: var(--color-bg-muted) !important;
+}
+
+/* Text color utilities */
+.text-primary {
+    color: var(--color-primary) !important;
+}
+
+.text-dark {
+    color: var(--color-dark) !important;
+}
+
+/* ==========================================================================
+   11. Page-Specific Components
+   ========================================================================== */
+
+/* Compass Component */
+.compass-wrapper {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin: 0 auto;
+}
+
+.compass-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.2s linear;
+}
+
+.compass-arrow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 120px;
+    transform: translate(-50%, -50%);
+}
+
+/* ==========================================================================
+   12. Layout Utilities
+   ========================================================================== */
+
+/* Consistent min-heights for content areas */
+.content-area-sm {
+    min-height: 300px;
+}
+
+.content-area-md {
+    min-height: 400px;
+}
+
+.content-area-lg {
+    min-height: 500px;
+}
+
+/* Image thumbnails in tables/lists */
+.img-thumbnail-sm {
+    max-width: 60px;
+    max-height: 40px;
+    object-fit: cover;
+}
+
+.img-thumbnail-md {
+    max-width: 300px;
+    max-height: 200px;
+    object-fit: cover;
+}
+
+/* Image preview (for file upload forms) */
+.img-preview {
+    max-width: 256px;
+    height: auto;
+    display: none;
+}
+
+/* Step card images */
+.img-step {
+    height: 180px;
+    object-fit: cover;
+}
+
+/* ==========================================================================
+   13. Bootstrap Badge Extensions
+   ========================================================================== */
+
+.badge.bg-light {
+    border: 1px solid var(--color-bg-muted);
+}
+
+/* ==========================================================================
+   14. Border Utilities for Cards
+   ========================================================================== */
+
+.card.border-danger {
+    border: 1px solid var(--bs-danger) !important;
 }

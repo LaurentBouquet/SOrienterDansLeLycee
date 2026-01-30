@@ -1,12 +1,78 @@
-{{ form_start(form) }}
-    {{ form_row(form.weight) }}
-    {{ form_row(form.pmr) }}
-    {{ form_row(form.floor) }}
-    {{ form_row(form.locationA) }}
-    {{ form_row(form.locationB) }}
-    {{ form_row(form.instructionAtoB) }}
-    {{ form_row(form.instructionBtoA) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+    <div class="row">
+        <div class="col-12 col-md-4">
+            <div class="mb-3">
+                {{ form_label(form.weight, 'Poids', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.weight, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.weight) }}
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="mb-3">
+                {{ form_label(form.pmr, 'Accessible PMR', {'label_attr': {'class': 'form-label'}}) }}
+                <div class="form-check mt-2">
+                    {{ form_widget(form.pmr, {'attr': {'class': 'form-check-input'}}) }}
+                    <label class="form-check-label text-muted" for="{{ form.pmr.vars.id }}">
+                        <i class="fa-solid fa-wheelchair me-1" aria-hidden="true"></i>
+                        Accessible
+                    </label>
+                </div>
+                {{ form_errors(form.pmr) }}
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="mb-3">
+                {{ form_label(form.floor, 'Étage (filtre)', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.floor, {'attr': {'class': 'form-select'}}) }}
+                {{ form_errors(form.floor) }}
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="mb-3">
+                {{ form_label(form.locationA, 'Lieu A', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.locationA, {'attr': {'class': 'form-select'}}) }}
+                {{ form_errors(form.locationA) }}
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="mb-3">
+                {{ form_label(form.locationB, 'Lieu B', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.locationB, {'attr': {'class': 'form-select'}}) }}
+                {{ form_errors(form.locationB) }}
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="mb-3">
+                {{ form_label(form.instructionAtoB, 'Instruction A → B', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.instructionAtoB, {'attr': {'class': 'form-control', 'rows': 3, 'placeholder': 'Ex: Tournez à droite puis continuez tout droit'}}) }}
+                {{ form_errors(form.instructionAtoB) }}
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="mb-3">
+                {{ form_label(form.instructionBtoA, 'Instruction B → A', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.instructionBtoA, {'attr': {'class': 'form-control', 'rows': 3, 'placeholder': 'Ex: Tournez à gauche puis continuez tout droit'}}) }}
+                {{ form_errors(form.instructionBtoA) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-check me-2" aria-hidden="true"></i>
+            {{ button_label|default('Enregistrer') }}
+        </button>
+    </div>
 {{ form_end(form) }}
 
 <script>
@@ -16,33 +82,28 @@
 
     const locationAOptions = Array.from(locationASelect.options);
     const locationBOptions = Array.from(locationBSelect.options);
-    
+
     function filterLocationOptions() {
         const selectedFloor = floorSelect.value;
-        const selectedAType = locationASelect.dataset.type;
 
         // Filter Location A options
         locationASelect.innerHTML = '';
         locationAOptions.forEach(option => {
             if (option.dataset.floor == selectedFloor || selectedFloor == '') {
-                locationASelect.appendChild(option);
+                locationASelect.appendChild(option.cloneNode(true));
             }
         });
 
         // Filter Location B options
         locationBSelect.innerHTML = '';
         locationBOptions.forEach(option => {
-            /*if (option.dataset.type == selectedFloor && selectedAType == 'STAIRS') {
-                locationBSelect.appendChild(option.dataset.type == 'STAIRS');
-            }*/
             if (option.dataset.floor == selectedFloor || selectedFloor == '') {
-                locationBSelect.appendChild(option);
+                locationBSelect.appendChild(option.cloneNode(true));
             }
         });
     }
 
     floorSelect.addEventListener('change', filterLocationOptions);
-    /*locationASelect.addEventListener('change', filterLocationOptions);*/
 
     // Initial filtering on page load
     filterLocationOptions();

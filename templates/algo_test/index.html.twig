@@ -1,7 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AlgoTestController!{% endblock %}
+{% block title %}Test Algorithme{% endblock %}
 
 {% block body %}
-    <h1>Welcome to the Algorithm Test Page</h1>
+<div class="container py-4">
+    <div class="text-center">
+        <h1 class="h3 mb-4">
+            <i class="fa-solid fa-flask me-2" aria-hidden="true"></i>
+            Test de l'algorithme
+        </h1>
+        <a href="{{ path('app_algo_new') }}" class="btn btn-primary">
+            <i class="fa-solid fa-route me-2" aria-hidden="true"></i>
+            Tester un itinéraire
+        </a>
+    </div>
+</div>
 {% endblock %}
