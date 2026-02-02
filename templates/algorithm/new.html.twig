@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Navigation - Trouver mon chemin{% endblock %}
+
+{% block body %}
+<div class="container-fluid py-4">
+    <div class="row g-4">
+
+        {# Control Panel - Left Side #}
+        <div class="col-12 col-lg-4 col-xl-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fa-solid fa-route me-2" aria-hidden="true"></i>
+                        Planifier mon trajet
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form, {'attr': {'class': 'navigation-form'}}) }}
+
+                        {# Starting Point #}
+                        <div class="mb-4">
+                            <label for="{{ form.start.vars.id }}" class="form-label">
+                                <i class="fa-solid fa-circle text-primary me-2" aria-hidden="true"></i>
+                                Point de départ
+                            </label>
+                            {{ form_widget(form.start, {'attr': {'class': 'form-select form-select-lg'}}) }}
+                            {{ form_errors(form.start) }}
+                        </div>
+
+                        {# Destination #}
+                        <div class="mb-4">
+                            <label for="{{ form.end.vars.id }}" class="form-label">
+                                <i class="fa-solid fa-location-dot text-primary me-2" aria-hidden="true"></i>
+                                Destination
+                            </label>
+                            {{ form_widget(form.end, {'attr': {'class': 'form-select form-select-lg'}}) }}
+                            {{ form_errors(form.end) }}
+                        </div>
+
+                        {# Submit Button #}
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fa-solid fa-magnifying-glass me-2" aria-hidden="true"></i>
+                                Trouver mon chemin
+                            </button>
+                        </div>
+
+                    {{ form_end(form) }}
+                </div>
+
+                {# Help Text #}
+                <div class="card-footer text-muted small">
+                    <i class="fa-solid fa-circle-info me-1" aria-hidden="true"></i>
+                    Sélectionnez votre position actuelle et votre destination pour obtenir l'itinéraire.
+                </div>
+            </div>
+
+            {# Back to Home Link #}
+            <div class="mt-3 text-center">
+                <a href="{{ path('app_index') }}" class="text-muted">
+                    <i class="fa-solid fa-arrow-left me-1" aria-hidden="true"></i>
+                    Retour à l'accueil
+                </a>
+            </div>
+        </div>
+
+        {# Map Area - Right Side #}
+        <div class="col-12 col-lg-8 col-xl-9">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fa-solid fa-map me-2" aria-hidden="true"></i>
+                        Plan du bâtiment
+                    </h5>
+                    <span class="badge bg-secondary">
+                        <i class="fa-solid fa-building me-1" aria-hidden="true"></i>
+                        Vue d'ensemble
+                    </span>
+                </div>
+                <div class="card-body bg-light content-area-lg p-0">
+                    <img src="{{ asset('images/building_plan.jpg') }}" alt="Plan du bâtiment" class="w-100 h-100" style="display: block;">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

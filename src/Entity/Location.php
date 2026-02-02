@@ -173,4 +173,15 @@ class Location
 
         return $this;
     }
+
+    public function getImageUrl(): ?string
+    {
+        if (!$this->image) {
+            return null;
+        }
+        if (strpos($this->image, '/') !== false) {
+            return $this->image;
+        }
+        return sprintf('/images/location/%s', $this->image);
+    }
 }

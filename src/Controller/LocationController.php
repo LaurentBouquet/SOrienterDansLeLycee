@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Location;
 use App\Form\LocationType;
 use App\Repository\LocationRepository;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,15 +24,24 @@ final class LocationController extends AbstractController
     }
 
     #[Route('/new', name: 'app_location_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $location = new Location();
         $form = $this->createForm(LocationType::class, $location);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $uploadedFile = $form->get('imageA')->getData();
+            
+            // Persist first to get the ID
             $entityManager->persist($location);
-            $entityManager->flush();
+            $entityManager->flush(); 
+            
+            if ($uploadedFile) {
+                $newFileName = $fileUploader->upload($uploadedFile, $location->getId());
+                $location->setImage($newFileName);
+                $entityManager->flush();
+            }
 
             return $this->redirectToRoute('app_location_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -51,12 +61,18 @@ final class LocationController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_location_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Location $location, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Location $location, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $form = $this->createForm(LocationType::class, $location);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $uploadedFile = $form->get('imageA')->getData();
+            if ($uploadedFile) {
+                $newFileName = $fileUploader->upload($uploadedFile, $location->getId());
+                $location->setImage($newFileName);
+            }
+            
             $entityManager->flush();
 
             return $this->redirectToRoute('app_location_index', [], Response::HTTP_SEE_OTHER);

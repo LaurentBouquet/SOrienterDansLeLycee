@@ -8,6 +8,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class LocationType extends AbstractType
 {
@@ -39,6 +41,19 @@ class LocationType extends AbstractType
             ])
             ->add('reference', TextType::class, [
                 'required' => false,
+            ])
+            ->add('imageA', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '4000k',
+                        'mimeTypes' => [
+                            'image/*',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez télécharger une image valide',
+                    ])
+                ],   
             ])
         ;
     }
