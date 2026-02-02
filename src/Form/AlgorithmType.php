@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AlgoTestType extends AbstractType
+class AlgorithmType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

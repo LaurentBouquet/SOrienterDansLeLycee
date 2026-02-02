@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Form\AlgoTestType;
+use App\Form\AlgorithmType;
 use App\Repository\ConnectionRepository;
 use App\Repository\LocationRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-final class AlgoTestController extends AbstractController
+final class AlgorithmController extends AbstractController
 {
     private ConnectionRepository $connectionRepository;
     private LocationRepository $locationRepository;
@@ -24,7 +24,7 @@ final class AlgoTestController extends AbstractController
     #[Route('/algo/new', name: 'app_algo_new', methods: ['GET', 'POST'])]
     public function index(Request $request): Response
     {
-        $form = $this->createForm(AlgoTestType::class);
+        $form = $this->createForm(AlgorithmType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -43,7 +43,7 @@ final class AlgoTestController extends AbstractController
             return $this->redirectToRoute('app_algo_path', ['path' => $pathImages], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('algo_test/new.html.twig', [
+        return $this->render('algorithm/new.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -52,7 +52,7 @@ final class AlgoTestController extends AbstractController
     public function path(Request $request): Response {
         $path = $request->getSession()->get('path', []);
 
-        return $this->render('algo_test/path.html.twig', [
+        return $this->render('algorithm/path.html.twig', [
             'path' => $path,
         ]);
     }
