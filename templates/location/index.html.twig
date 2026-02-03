@@ -20,6 +20,15 @@
         </a>
     </div>
 
+    {# Quick Links #}
+    <div class="mt-4">
+        <a href="{{ path('app_connection_index') }}" class="text-muted">
+            <i class="fa-solid fa-arrow-right me-1" aria-hidden="true"></i>
+            Gérer les connexions
+        </a>
+    </div>
+    <br>
+
     {# Locations Table Card #}
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
@@ -94,14 +103,5 @@
             </div>
         </div>
     </div>
-
-    {# Quick Links #}
-    <div class="mt-4">
-        <a href="{{ path('app_connection_index') }}" class="text-muted">
-            <i class="fa-solid fa-arrow-right me-1" aria-hidden="true"></i>
-            Gérer les connexions
-        </a>
-    </div>
-
 </div>
 {% endblock %}
