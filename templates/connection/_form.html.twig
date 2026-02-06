@@ -20,11 +20,30 @@
                 {{ form_errors(form.pmr) }}
             </div>
         </div>
-        <div class="col-12 col-md-4">
+        {# <div class="col-12 col-md-4">
             <div class="mb-3">
                 {{ form_label(form.floor, 'Étage (filtre)', {'label_attr': {'class': 'form-label'}}) }}
                 {{ form_widget(form.floor, {'attr': {'class': 'form-select'}}) }}
                 {{ form_errors(form.floor) }}
+            </div>
+        </div> #}
+    </div>
+
+    <hr class="my-4">
+
+        <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="mb-3">
+                {{ form_label(form.floorA, 'Étage A (Filtre)', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.floorA, {'attr': {'class': 'form-select'}}) }}
+                {{ form_errors(form.floorA) }}
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="mb-3">
+                {{ form_label(form.floorB, 'Étage B (Filtre)', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.floorB, {'attr': {'class': 'form-select'}}) }}
+                {{ form_errors(form.floorB) }}
             </div>
         </div>
     </div>
@@ -76,35 +95,7 @@
 {{ form_end(form) }}
 
 <script>
-    const floorSelect = document.getElementById('{{ form.floor.vars.id }}');
-    const locationASelect = document.getElementById('{{ form.locationA.vars.id }}');
-    const locationBSelect = document.getElementById('{{ form.locationB.vars.id }}');
 
-    const locationAOptions = Array.from(locationASelect.options);
-    const locationBOptions = Array.from(locationBSelect.options);
 
-    function filterLocationOptions() {
-        const selectedFloor = floorSelect.value;
 
-        // Filter Location A options
-        locationASelect.innerHTML = '';
-        locationAOptions.forEach(option => {
-            if (option.dataset.floor == selectedFloor || selectedFloor == '') {
-                locationASelect.appendChild(option.cloneNode(true));
-            }
-        });
-
-        // Filter Location B options
-        locationBSelect.innerHTML = '';
-        locationBOptions.forEach(option => {
-            if (option.dataset.floor == selectedFloor || selectedFloor == '') {
-                locationBSelect.appendChild(option.cloneNode(true));
-            }
-        });
-    }
-
-    floorSelect.addEventListener('change', filterLocationOptions);
-
-    // Initial filtering on page load
-    filterLocationOptions();
 </script>

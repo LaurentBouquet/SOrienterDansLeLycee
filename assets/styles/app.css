@@ -1,263 +1,204 @@
 /* ==========================================================================
-   S'Orienter Dans Le Lycée - Global Base Styles
+   S'Orienter Dans Le Lycée - Bootstrap 5.3 Theme Customization
    ========================================================================== */
 
 /* ==========================================================================
-   1. CSS Custom Properties (Color System)
+   1. Bootstrap CSS Variable Overrides (Light Mode)
+   
+   Using Bootstrap 5.3 native theming system via :root
+   These variables integrate directly with Bootstrap components
    ========================================================================== */
 
-:root {
-    /* Primary colors */
-    --color-primary: #12a3e4;
-    --color-primary-soft: #a1ddf4;
-    --color-primary-dark: #0e82b6; /* Darker shade for hover states */
+:root,
+[data-bs-theme="light"] {
+    /* Body */
+    --bs-body-bg: #f2fcfb;
+    --bs-body-color: #373f57;
 
-    /* Dark tones */
-    --color-dark: #010e32;
-    --color-dark-soft: #373f57;
+    /* Primary color */
+    --bs-primary: #12a3e4;
+    --bs-primary-rgb: 18, 163, 228;
 
-    /* Background colors */
-    --color-bg: #f2fcfb;
-    --color-bg-muted: #d0d3da;
+    /* Secondary color */
+    --bs-secondary: #adb6d1;
+    --bs-secondary-rgb: 173, 182, 209;
 
-    /* Text colors */
-    --color-text-muted: #9c9c9b;
+    /* Border color */
+    --bs-border-color: #d0d3da;
 
-    /* Shadows */
-    --shadow-card: 0 2px 8px rgba(1, 14, 50, 0.08);
-    --shadow-card-hover: 0 4px 12px rgba(1, 14, 50, 0.12);
+    /* Heading and secondary text colors */
+    --bs-heading-color: #010e32;
+    --bs-secondary-color: #9c9c9b;
+
+    /* Card styling */
+    --bs-card-bg: #ffffff;
+    --bs-card-border-color: transparent;
+    --bs-card-border-radius: 0.75rem;
+    --bs-card-box-shadow: 0 2px 8px rgba(1, 14, 50, 0.08);
+
+    /* Link colors (derived from primary) */
+    --bs-link-color: #12a3e4;
+    --bs-link-color-rgb: 18, 163, 228;
+    --bs-link-hover-color: #0e82b6;
+    --bs-link-hover-color-rgb: 14, 130, 182;
+
+    /* Focus ring */
+    --bs-focus-ring-color: rgba(18, 163, 228, 0.25);
 
     /* Border radius */
-    --radius-card: 12px;
-    --radius-btn: 6px;
+    --bs-border-radius: 0.375rem;
+    --bs-border-radius-lg: 0.75rem;
 }
 
 /* ==========================================================================
-   2. Base / Global Styles
+   1b. Bootstrap CSS Variable Overrides (Dark Mode)
+   
+   Dark theme using Bootstrap 5.3 native data-bs-theme system
+   Variables automatically cascade to all Bootstrap components
+   ========================================================================== */
+
+[data-bs-theme="dark"] {
+    /* Body - dark background with light text */
+    --bs-body-bg: #010e32;
+    --bs-body-color: #d0d3da;
+
+    /* Primary color - lighter variant for dark backgrounds */
+    --bs-primary: #50aed5;
+    --bs-primary-rgb: 80, 174, 213;
+
+    /* Secondary color - muted dark tone */
+    --bs-secondary: #373f57;
+    --bs-secondary-rgb: 55, 63, 87;
+
+    /* Border color - subtle dark border */
+    --bs-border-color: #1b244a;
+
+    /* Heading and secondary text colors */
+    --bs-heading-color: #f2fcfb;
+    --bs-secondary-color: #9c9c9b;
+
+    /* Card styling - dark card background */
+    --bs-card-bg: #1b244a;
+    --bs-card-border-color: transparent;
+    --bs-card-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+    /* Link colors (lighter primary for contrast) */
+    --bs-link-color: #50aed5;
+    --bs-link-color-rgb: 80, 174, 213;
+    --bs-link-hover-color: #7ec4e3;
+    --bs-link-hover-color-rgb: 126, 196, 227;
+
+    /* Focus ring - adjusted for dark mode */
+    --bs-focus-ring-color: rgba(80, 174, 213, 0.35);
+
+    /* Form inputs */
+    --bs-tertiary-bg: #1b244a;
+
+    /* Emphasis colors for better readability */
+    --bs-emphasis-color: #f2fcfb;
+}
+
+/* ==========================================================================
+   2. Typography
+   
+   Keep Bootstrap default font stack
+   Adjust line-height and heading weights
    ========================================================================== */
 
 body {
-    background-color: var(--color-bg);
-    color: var(--color-dark-soft);
     line-height: 1.6;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* ==========================================================================
-   3. Typography
-   ========================================================================== */
-
-h1, h2, h3, h4, h5, h6 {
-    color: var(--color-dark);
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
     font-weight: 600;
-}
-
-h1 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-}
-
-h2 {
-    font-size: 1.75rem;
-    margin-bottom: 0.875rem;
-}
-
-h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.75rem;
-}
-
-h4 {
-    font-size: 1.25rem;
-    margin-bottom: 0.625rem;
-}
-
-h5 {
-    font-size: 1.125rem;
-    margin-bottom: 0.5rem;
-}
-
-h6 {
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-}
-
-/* Muted text utility */
-.text-muted {
-    color: var(--color-text-muted) !important;
-}
-
-/* Links */
-a {
-    color: var(--color-primary);
-}
-
-a:hover {
-    color: var(--color-primary-dark);
+    color: var(--bs-heading-color);
 }
 
 /* ==========================================================================
-   4. Bootstrap Button Overrides
-   ========================================================================== */
-
-/* Primary button */
-.btn-primary {
-    background-color: var(--color-primary);
-    border-color: var(--color-primary);
-}
-
-.btn-primary:hover,
-.btn-primary:focus {
-    background-color: var(--color-primary-dark);
-    border-color: var(--color-primary-dark);
-}
-
-.btn-primary:active,
-.btn-primary.active {
-    background-color: var(--color-primary-dark);
-    border-color: var(--color-primary-dark);
-}
-
-/* Outline primary button */
-.btn-outline-primary {
-    color: var(--color-primary);
-    border-color: var(--color-primary);
-}
-
-.btn-outline-primary:hover,
-.btn-outline-primary:focus {
-    background-color: var(--color-primary);
-    border-color: var(--color-primary);
-    color: #fff;
-}
-
-/* General button styling */
-.btn {
-    border-radius: var(--radius-btn);
-    font-weight: 500;
-}
-
-/* ==========================================================================
-   5. Bootstrap Card Overrides
+   3. Card Component Enhancements
+   
+   - 12px border-radius
+   - Subtle shadow
+   - No heavy borders
    ========================================================================== */
 
 .card {
-    border: none;
-    border-radius: var(--radius-card);
-    box-shadow: var(--shadow-card);
-    background-color: #fff;
-}
-
-.card:hover {
-    box-shadow: var(--shadow-card-hover);
+    border-radius: var(--bs-card-border-radius);
+    box-shadow: var(--bs-card-box-shadow);
+    border: 1px solid var(--bs-card-border-color);
 }
 
 .card-header {
     background-color: transparent;
-    border-bottom: 1px solid var(--color-bg-muted);
+    border-bottom: 1px solid var(--bs-border-color);
     font-weight: 600;
-    color: var(--color-dark);
+    color: var(--bs-heading-color);
 }
 
 .card-footer {
     background-color: transparent;
-    border-top: 1px solid var(--color-bg-muted);
+    border-top: 1px solid var(--bs-border-color);
 }
 
 /* ==========================================================================
-   6. Bootstrap Form Overrides
+   4. Button Refinements
+   
+   Using Bootstrap's native primary color variables
    ========================================================================== */
 
-.form-control:focus,
-.form-select:focus {
-    border-color: var(--color-primary-soft);
-    box-shadow: 0 0 0 0.2rem rgba(18, 163, 228, 0.15);
-}
-
-.form-label {
-    color: var(--color-dark);
+.btn {
     font-weight: 500;
 }
 
 /* ==========================================================================
-   7. Bootstrap Table Overrides
+   5. Form Enhancements
+   
+   Focus states using primary color
    ========================================================================== */
 
-.table {
-    color: var(--color-dark-soft);
+.form-control:focus,
+.form-select:focus {
+    border-color: rgba(var(--bs-primary-rgb), 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.15);
 }
 
-.table thead th {
-    color: var(--color-dark);
-    font-weight: 600;
-    border-bottom-color: var(--color-bg-muted);
-}
-
-.table td {
-    border-color: var(--color-bg-muted);
+.form-label {
+    font-weight: 500;
+    color: var(--bs-heading-color);
 }
 
 /* ==========================================================================
-   8. Bootstrap Alert Overrides
+   6. Table Refinements
+   ========================================================================== */
+
+.table thead th {
+    font-weight: 600;
+    color: var(--bs-heading-color);
+}
+
+/* ==========================================================================
+   7. Alert Refinements
    ========================================================================== */
 
 .alert {
-    border-radius: var(--radius-btn);
     border: none;
 }
 
-.alert-primary {
-    background-color: var(--color-primary-soft);
-    color: var(--color-dark);
-}
-
 /* ==========================================================================
-   9. Bootstrap Navbar Overrides
+   8. Navbar Refinements
    ========================================================================== */
 
 .navbar {
-    background-color: #fff;
-    box-shadow: var(--shadow-card);
+    box-shadow: var(--bs-card-box-shadow);
 }
 
 .navbar-brand {
-    color: var(--color-dark);
     font-weight: 600;
 }
 
-.nav-link {
-    color: var(--color-dark-soft);
-}
-
-.nav-link:hover,
-.nav-link.active {
-    color: var(--color-primary);
-}
-
 /* ==========================================================================
-   10. Utility Classes
-   ========================================================================== */
-
-/* Background utilities */
-.bg-primary-soft {
-    background-color: var(--color-primary-soft) !important;
-}
-
-.bg-muted {
-    background-color: var(--color-bg-muted) !important;
-}
-
-/* Text color utilities */
-.text-primary {
-    color: var(--color-primary) !important;
-}
-
-.text-dark {
-    color: var(--color-dark) !important;
-}
-
-/* ==========================================================================
-   11. Page-Specific Components
+   9. Page-Specific Components
    ========================================================================== */
 
 /* Compass Component */
@@ -286,7 +227,7 @@ a:hover {
 }
 
 /* ==========================================================================
-   12. Layout Utilities
+   10. Layout Utilities
    ========================================================================== */
 
 /* Consistent min-heights for content areas */
@@ -329,17 +270,20 @@ a:hover {
 }
 
 /* ==========================================================================
-   13. Bootstrap Badge Extensions
+   11. Bootstrap Extensions (using native variables)
    ========================================================================== */
 
-.badge.bg-light {
-    border: 1px solid var(--color-bg-muted);
+/* Soft primary background utility */
+.bg-primary-soft {
+    background-color: rgba(var(--bs-primary-rgb), 0.15);
 }
 
-/* ==========================================================================
-   14. Border Utilities for Cards
-   ========================================================================== */
+/* Badge with body-secondary background border fix */
+.badge.bg-body-secondary {
+    border: 1px solid var(--bs-border-color);
+}
 
+/* Danger border for cards (e.g., delete zones) */
 .card.border-danger {
-    border: 1px solid var(--bs-danger) !important;
+    border: 1px solid var(--bs-danger);
 }

@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Location;
 use App\Entity\Connection;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -16,7 +18,20 @@ class ConnectionType extends AbstractType
     {
         $builder
             ->add('pmr')
-            ->add('floor', ChoiceType::class, [
+            ->add('floorA', ChoiceType::class, [
+                'choices' => [
+                    'Sous-sol' => -1,
+                    'RDC' => 0,
+                    '1er étage' => 1,
+                    '2e étage' => 2,
+                    '3e étage' => 3,
+                ],
+                'mapped' => false,
+                'required' => false,
+                // 'expanded' => true,
+                // 'multiple' => false, // Mettre à true pour des cases à cocher 
+            ])
+            ->add('floorB', ChoiceType::class, [
                 'choices' => [
                     'Sous-sol' => -1,
                     'RDC' => 0,
@@ -32,7 +47,7 @@ class ConnectionType extends AbstractType
             ->add('locationA', EntityType::class, [
                 'class' => Location::class,
                 'choice_label' => 'name',
-                'choice_attr' => function(Location $location): array {
+                'choice_attr' => function (Location $location): array {
                     return [
                         'data-floor' => $location->getFloor(),
                         'data-type' => $location->getType(),
@@ -43,7 +58,7 @@ class ConnectionType extends AbstractType
             ->add('locationB', EntityType::class, [
                 'class' => Location::class,
                 'choice_label' => 'name',
-                'choice_attr' => function(Location $location): array {
+                'choice_attr' => function (Location $location): array {
                     return [
                         'data-floor' => $location->getFloor(),
                         'data-type' => $location->getType(),
