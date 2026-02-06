@@ -3,9 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Location;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;    
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AlgorithmType extends AbstractType
@@ -15,8 +17,12 @@ class AlgorithmType extends AbstractType
         $builder
             ->add('start', EntityType::class, [
                 'class' => Location::class,
+                'query_builder' => function (EntityRepository $er): QueryBuilder {
+                    return $er->createQueryBuilder('loc')
+                        ->where("loc.type = 'ROOM'");
+                },
                 'choice_label' => 'name',
-                'choice_attr' => function(Location $location): array {
+                'choice_attr' => function (Location $location): array {
                     return [
                         'data-floor' => $location->getFloor(),
                         'data-type' => $location->getType(),
@@ -26,8 +32,12 @@ class AlgorithmType extends AbstractType
             ])
             ->add('end', EntityType::class, [
                 'class' => Location::class,
+                'query_builder' => function (EntityRepository $er): QueryBuilder {
+                    return $er->createQueryBuilder('loc')
+                        ->where("loc.type = 'ROOM'");
+                },
                 'choice_label' => 'name',
-                'choice_attr' => function(Location $location): array {
+                'choice_attr' => function (Location $location): array {
                     return [
                         'data-floor' => $location->getFloor(),
                         'data-type' => $location->getType(),

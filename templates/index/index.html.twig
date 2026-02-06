@@ -7,9 +7,20 @@
     {# Top Bar #}
     <header class="py-3">
         <div class="container">
-            <div class="d-flex justify-content-end">
+            <div class="d-flex justify-content-end align-items-center gap-2">
+                {# Dark Mode Toggle #}
+                <button 
+                    type="button" 
+                    class="btn btn-outline-secondary btn-sm" 
+                    id="theme-toggle"
+                    aria-label="Basculer le mode sombre"
+                    title="Changer de thème"
+                >
+                    <i class="fa-solid fa-moon" aria-hidden="true"></i>
+                </button>
+
                 {% if app.user %}
-                    <div class="dropdown me-2">
+                    <div class="dropdown">
                         <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa-solid fa-cog me-1" aria-hidden="true"></i>
                             Administration
@@ -64,7 +75,7 @@
                         où que vous soyez.
                     </p>
 
-                    {# Primary CTA #}
+                    {# Primary CTA (Call to Action) #}
                     <a href="{{ path('app_algo_new') }}" class="btn btn-primary btn-lg px-5 py-3">
                         <i class="fa-solid fa-location-arrow me-2" aria-hidden="true"></i>
                         Commencer la navigation
