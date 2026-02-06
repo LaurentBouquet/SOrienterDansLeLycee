@@ -11,7 +11,62 @@
         {% endblock %}
     </head>
     <body>
-        {% block navbar %}{% endblock %}
+        {% block navbar %}
+            <header class="py-3">
+                <div class="container">
+                    <div class="d-flex align-items-center gap-2">
+                        <a href="{{ path('app_index') }}" class="btn btn-outline-secondary btn-sm">
+                            <i class="fa-solid fa-house me-1" aria-hidden="true"></i>
+                            Accueil
+                        </a>
+                        <div class="d-flex align-items-center gap-2 ms-auto">
+                            {# Dark Mode Toggle #}
+                            <button 
+                                type="button" 
+                                class="btn btn-outline-secondary btn-sm" 
+                                id="theme-toggle"
+                                aria-label="Basculer le mode sombre"
+                                title="Changer de thème"
+                            >
+                                <i class="fa-solid fa-moon" aria-hidden="true"></i>
+                            </button>
+
+                            {% if app.user %}
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa-solid fa-cog me-1" aria-hidden="true"></i>
+                                        Administration
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li>
+                                            <a class="dropdown-item" href="{{ path('app_location_index') }}">
+                                                <i class="fa-solid fa-location-dot me-2" aria-hidden="true"></i>
+                                                Gestion des lieux
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ path('app_connection_index') }}">
+                                                <i class="fa-solid fa-diagram-project me-2" aria-hidden="true"></i>
+                                                Gestion des connexions
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <a href="{{ logout_path() }}" class="btn btn-outline-secondary btn-sm">
+                                    <i class="fa-solid fa-sign-out-alt me-1" aria-hidden="true"></i>
+                                    Déconnexion
+                                </a>
+                            {% else %}
+                                <a href="{{ path('app_login') }}" class="btn btn-outline-secondary btn-sm">
+                                    <i class="fa-solid fa-user me-1" aria-hidden="true"></i>
+                                    Espace admin
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </header>
+        {% endblock %}
         {% block body %}{% endblock %}
     </body>
 </html>
