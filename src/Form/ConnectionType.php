@@ -26,10 +26,9 @@ class ConnectionType extends AbstractType
                     '2e étage' => 2,
                     '3e étage' => 3,
                 ],
+                'placeholder' => 'Sélectionner un étage de départ',
                 'mapped' => false,
                 'required' => false,
-                // 'expanded' => true,
-                // 'multiple' => false, // Mettre à true pour des cases à cocher 
             ])
             ->add('floorB', ChoiceType::class, [
                 'choices' => [
@@ -39,6 +38,7 @@ class ConnectionType extends AbstractType
                     '2e étage' => 2,
                     '3e étage' => 3,
                 ],
+                'placeholder' => 'Sélectionner un étage d\'arrivée',
                 'mapped' => false,
                 'required' => false,
                 // 'expanded' => true,

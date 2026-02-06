@@ -95,7 +95,25 @@
 {{ form_end(form) }}
 
 <script>
+document.addEventListener('DOMContentLoaded', () => {
+    function filterLocations(floor, location) {
+        const selectedFloor = floor.value;
+        const options = Array.from(location.options);
 
+        options.forEach(option => {
+            option.hidden = selectedFloor && option.dataset.floor !== selectedFloor;
+        });
+    };
 
+    const floorA = document.getElementById('{{ form.floorA.vars.id }}');
+    const floorB = document.getElementById('{{ form.floorB.vars.id }}');
+    const locationA = document.getElementById('{{ form.locationA.vars.id }}');
+    const locationB = document.getElementById('{{ form.locationB.vars.id }}');
 
+    filterLocations(floorA, locationA);
+    filterLocations(floorB, locationB);
+
+    floorA.addEventListener('change', () => filterLocations(floorA, locationA));
+    floorB.addEventListener('change', () => filterLocations(floorB, locationB));
+});
 </script>
