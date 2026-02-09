@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Connection;
 use App\Form\ConnectionType;
+use App\Service\ConnectionFileUploader;
 use App\Repository\ConnectionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,14 +24,28 @@ final class ConnectionController extends AbstractController
     }
 
     #[Route('/new', name: 'app_connection_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, ConnectionFileUploader $fileUploaderAtoB, ConnectionFileUploader $fileUploaderBtoA): Response
     {
         $connection = new Connection();
         $form = $this->createForm(ConnectionType::class, $connection);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $uploadedFileAtoB = $form->get('imageAtoB')->getData();
+            $uploadedFileBtoA = $form->get('imageBtoA')->getData();
+
             $entityManager->persist($connection);
+
+            if ($uploadedFileAtoB) {
+                $newFileNameAtoB = $fileUploaderAtoB->uploadAtoB($uploadedFileAtoB, $connection->getLocationA()->getId(), $connection->getLocationB()->getId());
+                $connection->setImageAtoB($newFileNameAtoB);
+            }
+
+            if ($uploadedFileBtoA) {
+                $newFileNameBtoA = $fileUploaderBtoA->uploadBtoA($uploadedFileBtoA, $connection->getLocationB()->getId(), $connection->getLocationA()->getId());
+                $connection->setImageBtoA($newFileNameBtoA);
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_connection_index', [], Response::HTTP_SEE_OTHER);
@@ -51,12 +66,27 @@ final class ConnectionController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_connection_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Connection $connection, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Connection $connection, EntityManagerInterface $entityManager, ConnectionFileUploader $fileUploaderAtoB, ConnectionFileUploader $fileUploaderBtoA): Response
     {
         $form = $this->createForm(ConnectionType::class, $connection);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $uploadedFileAtoB = $form->get('imageAtoB')->getData();
+            $uploadedFileBtoA = $form->get('imageBtoA')->getData();
+
+            if ($uploadedFileAtoB) {
+                $newFileNameAtoB = $fileUploaderAtoB->uploadAtoB($uploadedFileAtoB, $connection->getLocationA()->getId(), $connection->getLocationB()->getId());
+                $connection->setImageAtoB($newFileNameAtoB);
+                $entityManager->flush();
+            }
+
+            if ($uploadedFileBtoA) {
+                $newFileNameBtoA = $fileUploaderBtoA->uploadBtoA($uploadedFileBtoA, $connection->getLocationB()->getId(), $connection->getLocationA()->getId());
+                $connection->setImageBtoA($newFileNameBtoA);
+                $entityManager->flush();
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_connection_index', [], Response::HTTP_SEE_OTHER);
@@ -71,7 +101,7 @@ final class ConnectionController extends AbstractController
     #[Route('/{id}', name: 'app_connection_delete', methods: ['POST'])]
     public function delete(Request $request, Connection $connection, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$connection->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $connection->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($connection);
             $entityManager->flush();
         }

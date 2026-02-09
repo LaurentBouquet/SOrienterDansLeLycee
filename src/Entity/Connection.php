@@ -32,8 +32,14 @@ class Connection
     #[ORM\Column(type: Types::TEXT, name: 'instruction_a_to_b')]
     private ?string $instructionAtoB = null;
 
-    #[ORM\Column(type: Types::TEXT, name: 'instruction_b_to_a', nullable: true)]
+    #[ORM\Column(type: Types::TEXT, name: 'instruction_b_to_a')]
     private ?string $instructionBtoA = null;
+
+    #[ORM\Column(length: 255, name: 'image_a_to_b')]
+    private ?string $imageAtoB = null;
+
+    #[ORM\Column(length: 255, name: 'image_b_to_a')]
+    private ?string $imageBtoA = null;
 
     public function getId(): ?int
     {
@@ -108,6 +114,30 @@ class Connection
     public function setInstructionBtoA(string $instructionBtoA): static
     {
         $this->instructionBtoA = $instructionBtoA;
+
+        return $this;
+    }
+
+    public function getImageAtoB(): ?string
+    {
+        return $this->imageAtoB;
+    }
+
+    public function setImageAtoB(?string $imageAtoB): static
+    {
+        $this->imageAtoB = $imageAtoB;
+
+        return $this;
+    }
+
+    public function getImageBtoA(): ?string
+    {
+        return $this->imageBtoA;
+    }
+
+    public function setImageBtoA(string $imageBtoA): static
+    {
+        $this->imageBtoA = $imageBtoA;
 
         return $this;
     }

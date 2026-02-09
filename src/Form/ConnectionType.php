@@ -4,12 +4,12 @@ namespace App\Form;
 
 use App\Entity\Location;
 use App\Entity\Connection;
-use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ConnectionType extends AbstractType
@@ -75,7 +75,34 @@ class ConnectionType extends AbstractType
                     'Escalier' => 10,
                 ],
                 'placeholder' => 'Sélectionner un type de connexion',
-            ]);
+            ])
+            ->add('imageAtoB', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '4000k',
+                        'mimeTypes' => [
+                            'image/*',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez télécharger une image valide',
+                    ])
+                ],   
+            ])
+            ->add('imageBtoA', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '4000k',
+                        'mimeTypes' => [
+                            'image/*',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez télécharger une image valide',
+                    ])
+                ],   
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

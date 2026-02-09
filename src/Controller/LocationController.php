@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Location;
 use App\Form\LocationType;
 use App\Repository\LocationRepository;
-use App\Service\FileUploader;
+use App\Service\LocationFileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +24,7 @@ final class LocationController extends AbstractController
     }
 
     #[Route('/new', name: 'app_location_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, LocationFileUploader $fileUploader): Response
     {
         $location = new Location();
         $form = $this->createForm(LocationType::class, $location);
@@ -61,7 +61,7 @@ final class LocationController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_location_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Location $location, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
+    public function edit(Request $request, Location $location, EntityManagerInterface $entityManager, LocationFileUploader $fileUploader): Response
     {
         $form = $this->createForm(LocationType::class, $location);
         $form->handleRequest($request);

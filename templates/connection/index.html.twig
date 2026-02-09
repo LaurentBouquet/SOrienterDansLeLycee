@@ -50,8 +50,7 @@
 								<th scope="col">Lieu B</th>
 								<th scope="col">Poids</th>
 								<th scope="col">PMR</th>
-								<th scope="col">Instruction A→B</th>
-								<th scope="col">Instruction B→A</th>
+								<th scope="col">Images</th>
 								<th scope="col" class="text-end pe-3">Actions</th>
 							</tr>
 						</thead>
@@ -79,8 +78,28 @@
 											</span>
 										{% endif %}
 									</td>
-									<td class="small text-muted">{{ connection.instructionAtoB|length > 40 ? connection.instructionAtoB|slice(0, 40) ~ '…' : connection.instructionAtoB }}</td>
-									<td class="small text-muted">{{ connection.instructionBtoA|length > 40 ? connection.instructionBtoA|slice(0, 40) ~ '…' : connection.instructionBtoA }}</td>
+								<td>
+									<div class="d-flex gap-1">
+										{% if connection.imageAtoB %}
+											<img src="/images/connection/{{ connection.imageAtoB }}" 
+												 alt="A→B"
+												 class="rounded img-thumbnail-sm"
+												 title="{{ connection.locationA.name }} → {{ connection.locationB.name }}">
+										{% endif %}
+										{% if connection.imageBtoA %}
+											<img src="/images/connection/{{ connection.imageBtoA }}" 
+												 alt="B→A"
+												 class="rounded img-thumbnail-sm"
+												 title="{{ connection.locationB.name }} → {{ connection.locationA.name }}">
+										{% endif %}
+										{% if not connection.imageAtoB and not connection.imageBtoA %}
+											<span class="text-muted small">
+												<i class="fa-regular fa-image me-1" aria-hidden="true"></i>
+												Aucune
+											</span>
+										{% endif %}
+									</div>
+								</td>
 									<td class="text-end pe-3">
 										<a href="{{ path('app_connection_show', {'id': connection.id}) }}" class="btn btn-sm btn-outline-secondary me-1" title="Voir">
 											<i class="fa-solid fa-eye" aria-hidden="true"></i>
@@ -92,7 +111,7 @@
 								</tr>
 							{% else %}
 								<tr>
-									<td colspan="7" class="text-center text-muted py-4">
+									<td colspan="6" class="text-center text-muted py-4">
 										<i class="fa-solid fa-inbox fa-2x mb-2 d-block" aria-hidden="true"></i>
 										Aucune connexion enregistrée
 									</td>

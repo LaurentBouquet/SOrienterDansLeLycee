@@ -100,6 +100,42 @@
                     </div>
                 </div>
             </div>
+
+            {# Images Card #}
+            {% if connection.imageAtoB or connection.imageBtoA %}
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa-solid fa-image me-2" aria-hidden="true"></i>
+                    Images de navigation
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% if connection.imageAtoB %}
+                        <div class="col-12 col-md-6 mb-3 mb-md-0 text-center">
+                            <h6 class="text-muted mb-2">
+                                <i class="fa-solid fa-arrow-right me-1" aria-hidden="true"></i>
+                                {{ connection.locationA.name }} → {{ connection.locationB.name }}
+                            </h6>
+                            <img src="/images/connection/{{ connection.imageAtoB }}" 
+                                 alt="Image {{ connection.locationA.name }} vers {{ connection.locationB.name }}"
+                                 class="img-fluid rounded img-thumbnail-md">
+                        </div>
+                        {% endif %}
+                        {% if connection.imageBtoA %}
+                        <div class="col-12 col-md-6 text-center">
+                            <h6 class="text-muted mb-2">
+                                <i class="fa-solid fa-arrow-left me-1" aria-hidden="true"></i>
+                                {{ connection.locationB.name }} → {{ connection.locationA.name }}
+                            </h6>
+                            <img src="/images/connection/{{ connection.imageBtoA }}" 
+                                 alt="Image {{ connection.locationB.name }} vers {{ connection.locationA.name }}"
+                                 class="img-fluid rounded img-thumbnail-md">
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
         </div>
 
         {# Sidebar Actions #}
