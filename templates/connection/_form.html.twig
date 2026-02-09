@@ -1,90 +1,42 @@
 {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
-    <div class="row">
-        <div class="col-12 col-md-4">
-            <div class="mb-3">
-                {{ form_label(form.weight, 'Poids', {'label_attr': {'class': 'form-label'}}) }}
-                {{ form_widget(form.weight, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(form.weight) }}
-            </div>
-        </div>
-        <div class="col-12 col-md-4">
-            <div class="mb-3">
-                {{ form_label(form.pmr, 'Accessible PMR', {'label_attr': {'class': 'form-label'}}) }}
-                <div class="form-check mt-2">
-                    {{ form_widget(form.pmr, {'attr': {'class': 'form-check-input'}}) }}
-                    <label class="form-check-label text-muted" for="{{ form.pmr.vars.id }}">
-                        <i class="fa-solid fa-wheelchair me-1" aria-hidden="true"></i>
-                        Accessible
-                    </label>
-                </div>
-                {{ form_errors(form.pmr) }}
-            </div>
-        </div>
-        {# <div class="col-12 col-md-4">
-            <div class="mb-3">
-                {{ form_label(form.floor, 'Étage (filtre)', {'label_attr': {'class': 'form-label'}}) }}
-                {{ form_widget(form.floor, {'attr': {'class': 'form-select'}}) }}
-                {{ form_errors(form.floor) }}
-            </div>
-        </div> #}
-    </div>
-
-    <hr class="my-4">
-
-        <div class="row">
-        <div class="col-12 col-md-6">
-            <div class="mb-3">
-                {{ form_label(form.floorA, 'Étage A (Filtre)', {'label_attr': {'class': 'form-label'}}) }}
-                {{ form_widget(form.floorA, {'attr': {'class': 'form-select'}}) }}
-                {{ form_errors(form.floorA) }}
-            </div>
-        </div>
-        <div class="col-12 col-md-6">
-            <div class="mb-3">
-                {{ form_label(form.floorB, 'Étage B (Filtre)', {'label_attr': {'class': 'form-label'}}) }}
-                {{ form_widget(form.floorB, {'attr': {'class': 'form-select'}}) }}
-                {{ form_errors(form.floorB) }}
-            </div>
-        </div>
-    </div>
-
-    <hr class="my-4">
-
+    {% if form.imageAtoB is defined %}
     <div class="row">
         <div class="col-12 col-md-6">
             <div class="mb-3">
-                {{ form_label(form.locationA, 'Lieu A', {'label_attr': {'class': 'form-label'}}) }}
-                {{ form_widget(form.locationA, {'attr': {'class': 'form-select'}}) }}
-                {{ form_errors(form.locationA) }}
+                <label class="form-label">
+                    <i class="fa-solid fa-image me-1" aria-hidden="true"></i>
+                    Image A → B
+                </label>
+                {{ form_widget(form.imageAtoB, {
+                    attr: {
+                        class: 'form-control',
+                        onchange: "previewImage(this, 'imagePreviewAtoB')"
+                    }
+                }) }}
+                {{ form_errors(form.imageAtoB) }}
+                <img id="imagePreviewAtoB" alt="Aperçu de l'image A → B" class="mt-2 rounded img-preview" />
             </div>
         </div>
         <div class="col-12 col-md-6">
             <div class="mb-3">
-                {{ form_label(form.locationB, 'Lieu B', {'label_attr': {'class': 'form-label'}}) }}
-                {{ form_widget(form.locationB, {'attr': {'class': 'form-select'}}) }}
-                {{ form_errors(form.locationB) }}
+                <label class="form-label">
+                    <i class="fa-solid fa-image me-1" aria-hidden="true"></i>
+                    Image B → A
+                </label>
+                {{ form_widget(form.imageBtoA, {
+                    attr: {
+                        class: 'form-control',
+                        onchange: "previewImage(this, 'imagePreviewBtoA')"
+                    }
+                }) }}
+                {{ form_errors(form.imageBtoA) }}
+                <img id="imagePreviewBtoA" alt="Aperçu de l'image B → A" class="mt-2 rounded img-preview" />
             </div>
         </div>
     </div>
+    {% endif %}
 
-    <hr class="my-4">
-
-    <div class="row">
-        <div class="col-12 col-md-6">
-            <div class="mb-3">
-                {{ form_label(form.instructionAtoB, 'Instruction A → B', {'label_attr': {'class': 'form-label'}}) }}
-                {{ form_widget(form.instructionAtoB, {'attr': {'class': 'form-control', 'rows': 3, 'placeholder': 'Ex: Tournez à droite puis continuez tout droit'}}) }}
-                {{ form_errors(form.instructionAtoB) }}
-            </div>
-        </div>
-        <div class="col-12 col-md-6">
-            <div class="mb-3">
-                {{ form_label(form.instructionBtoA, 'Instruction B → A', {'label_attr': {'class': 'form-label'}}) }}
-                {{ form_widget(form.instructionBtoA, {'attr': {'class': 'form-control', 'rows': 3, 'placeholder': 'Ex: Tournez à gauche puis continuez tout droit'}}) }}
-                {{ form_errors(form.instructionBtoA) }}
-            </div>
-        </div>
-    </div>
+    {{ form_rest(form) }}
 
     <div class="mt-4">
         <button type="submit" class="btn btn-primary">
@@ -94,8 +46,18 @@
     </div>
 {{ form_end(form) }}
 
+{% if form.imageAtoB is defined %}
 <script>
-
-
-
+    function previewImage(input, previewId) {
+        const preview = document.getElementById(previewId);
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 </script>
+{% endif %}
