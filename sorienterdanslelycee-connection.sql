@@ -1,47 +1,11 @@
--- --------------------------------------------------------
--- Hôte:                         127.0.0.1
--- Version du serveur:           12.0.2-MariaDB - mariadb.org binary distribution
--- SE du serveur:                Win64
--- HeidiSQL Version:             12.13.0.7147
--- --------------------------------------------------------
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8 */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
-
 -- Listage de la structure de la base pour sorienterdanslelycee
-CREATE DATABASE IF NOT EXISTS `sorienter` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
 USE `sorienter`;
-
--- Listage de la structure de table sorienterdanslelycee. tbl_connection
-CREATE TABLE IF NOT EXISTS `tbl_connection` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `location_a_id` int(11) NOT NULL,
-  `location_b_id` int(11) NOT NULL,
-  `weight` int(11) NOT NULL,
-  `pmr` tinyint(1) NOT NULL,
-  `instruction_a_to_b` text NOT NULL,
-  `instruction_b_to_a` text NOT NULL,
-  `image_a_to_b` varchar(255) NOT NULL,
-  `image_b_to_a` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `location_a_id` (`location_a_id`),
-  KEY `tbl_connection_ibfk_2` (`location_b_id`),
-  CONSTRAINT `tbl_connection_ibfk_1` FOREIGN KEY (`location_a_id`) REFERENCES `tbl_location` (`id`),
-  CONSTRAINT `tbl_connection_ibfk_2` FOREIGN KEY (`location_b_id`) REFERENCES `tbl_location` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=172 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table sorienterdanslelycee.tbl_connection : ~171 rows (environ)
 INSERT INTO `tbl_connection` (`id`, `location_a_id`, `location_b_id`, `weight`, `pmr`, `instruction_a_to_b`, `instruction_b_to_a`, `image_a_to_b`, `image_b_to_a`) VALUES
 	(1, 9, 23, 1, 1, 'Passer par la porte qui est à droite quand on regarde vers les portes coulissantes, sur la porte il y a un cadre "secretariat".', 'Passer par la porte.', NULL, NULL),
 	(2, 9, 2, 1, 1, 'Passer par les portes coulissantes et se sera la partie gauche du couloir.', 'Quand on arrive devant une heure numérique rouge, on peut voir des portes coulissantes, il faut passer par les portes coulissantes.', NULL, NULL),
-	(3, 2, 6, 1, 0, 'Si vous voyez une heure numérique rouge, vous devez voir des escaliers derrière.', 'Si vous voyez une heure numérique rouge, le couloir est derrière et se sera la partie à votre droite.', NULL, NULL),
+	(3, 2, 6, 1, 0, 'Si vous voyez une heure numérique rouge, vous devez voir des escaliers derrière.', 'Si vous voyez une heure numérique rouge, le couloir est derrière et se sera la partie à votre droite.', '2_6.jpg', '6_2.jpg'),
 	(4, 6, 10, 1, 0, 'En montant une partie des escaliers, il y a une grande porte avec le cadre "salle du mont".', 'Passer par la grande porte.', NULL, NULL),
 	(5, 2, 12, 1, 1, 'La salle S7 a une porte avec un cadre "7", si vous êtes au niveau des portes coulissantes se sera la 2ème porte à votre gauche, si vous êtes dans un carrefour se sera la 5ème porte à votre droite.', 'Passer par la porte.', NULL, NULL),
 	(6, 2, 13, 1, 1, 'La salle S11 a une porte avec un cadre "11", si vous êtes au niveau des portes coulissantes se sera la 3ème porte à votre gauche, si vous êtes dans un carrefour se sera la 4ème porte à votre droite.', 'Passer par la porte.', NULL, NULL),
@@ -51,7 +15,7 @@ INSERT INTO `tbl_connection` (`id`, `location_a_id`, `location_b_id`, `weight`, 
 	(10, 2, 157, 1, 1, 'Aller devant les portes coulissantes au milieu du couloir, en regardant les portes coulissantes aller à votre droite jusqu\'à être à un endroit avec plusieurs chemins.', 'Regarder autour de vous, le couloir principal est le couloir qui est le plus long.', NULL, NULL),
 	(11, 157, 17, 1, 1, 'Regarder vers le couloir principal, retournez-vous et se sera la portre de gauche.', 'Passer par la porte.', NULL, NULL),
 	(12, 157, 22, 1, 1, 'Regarder autour de vous jusqu\'à voir des portes rouges, passer par les portes rouge, vous devrez voir des casiers dans la pièce où vous êtes, les 2 portes mènent à la cantine.', 'Regarder vers les fenêtres ,tournez-vous vers la droite, il devrai y avoir une porte, passer la, normalement vous êtes dans une pièce avec des casiers, passer dans le passage qui est entre les casiers.', NULL, NULL),
-	(13, 157, 1, 1, 1, 'Regarder autour de vous jusqu\'à voir un ascenseur gris.', 'Quand vous sortez de l\'ascenseur, aller dans le passage qui est en face.', NULL, NULL),
+	(13, 157, 1, 1, 1, 'Regarder autour de vous jusqu\'à voir un ascenseur gris.', 'Quand vous sortez de l\'ascenseur, aller dans le passage qui est en face.', '157_1.jpg', '1_157.jpg'),
 	(14, 157, 8, 1, 0, 'Regarder autour de vous jusqu\'à voir l\'ascenseur, aller vers l\'ascenseur, tourner a gauche et normalement vous devriez voir des escaliers.', 'Regarder la porte qui mène à la cour, tourner a droite, il devrai y avoir un passage.', NULL, NULL),
 	(15, 2, 20, 1, 1, 'La salle immanuel kant est une porte à carreaux vitrés qui a des fenètres à côté, si vous êtes au niveau des portes coulissantes la porte sera à votre droite, si vous êtes dans un carrefour la porte sera à votre gauche.', 'Passer par la porte à carreaux vitrés.', NULL, NULL),
 	(16, 20, 21, 1, 1, 'C\'est la porte à gauche des fauteuils bleus et gris.', 'Regarder la porte qui mène à la cour, retournez-vous, il devrai y avoir une porte.', NULL, NULL),
@@ -90,9 +54,9 @@ INSERT INTO `tbl_connection` (`id`, `location_a_id`, `location_b_id`, `weight`, 
 	(49, 7, 53, 1, 0, 'Monter les escaliers jusqu\'au 1er étage.', 'Descendre les escaliers.', NULL, NULL),
 	(50, 6, 52, 1, 0, 'Monter les escaliers jusqu\'au 1er étage.', 'Descendre les escaliers.', NULL, NULL),
 	(51, 1, 47, 1, 1, 'Aller au 1er étage.', 'Aller au rez de chausée.', NULL, NULL),
-	(52, 53, 50, 1, 0, 'Normalement vous êtes dans un couloir et près de l\'escalier qui monte un cadre avec des infos sur le 1er étage.', 'Mettez-vous au niveau du carrefour, avancer un peu et il y aura les escaliers à droite.', NULL, NULL),
+	(52, 53, 50, 1, 0, 'Normalement vous êtes dans un couloir et près de l\'escalier qui monte un cadre avec des infos sur le 1er étage.', 'Mettez-vous au niveau du carrefour, avancer un peu et il y aura les escaliers à droite.', '53_50.jpg', '50_53.jpg'),
 	(53, 54, 158, 1, 0, 'Normalement vous êtes à un endroit avec 2 passages.', 'Si vous aller au bout du couloir principal du 1er étage devant l\'infirmerie, mettez vous fasse a la porte et aller à droite, il y aura les escaliers sur votre gauche.', NULL, NULL),
-	(54, 52, 48, 1, 0, 'Normalement vous êtes dans un couloir avec une grande porte en face et quand vous regardez sur les côtés il y a des grandes portes aussi.', 'Aller devant la grande porte au milieu du couloir, si vous regardez la grande porte les escaliers sont derrière vous.', NULL, NULL),
+	(54, 52, 48, 1, 0, 'Normalement vous êtes dans un couloir avec une grande porte en face et quand vous regardez sur les côtés il y a des grandes portes aussi.', 'Aller devant la grande porte au milieu du couloir, si vous regardez la grande porte les escaliers sont derrière vous.', '52_48.jpg', '48_52.jpg'),
 	(55, 158, 66, 1, 1, 'Si vous regarder les escaliers, à droite il y a un couloir, aller dans le couloir et le labo SVT sera à gauche.', 'Passer par la porte.', NULL, NULL),
 	(56, 158, 67, 1, 1, 'Si vous regarder les escaliers, aller à droite et aller au fond du couloir.', 'Passer par la porte.', NULL, NULL),
 	(57, 158, 48, 1, 1, 'Si vous regarder les escaliers, aller à gauche.', 'Mettez vous face a la porte de l\'infirmerie, c\'est à droite.', NULL, NULL),
@@ -121,14 +85,14 @@ INSERT INTO `tbl_connection` (`id`, `location_a_id`, `location_b_id`, `weight`, 
 	(80, 49, 162, 1, 1, 'Aller au croisement de couloirs, c\'est le couloir d\'en face.', 'Aller au croisement de couloirs et se sera le couloir à gauche. Si vous êtes au niveau des escaliers principal il faudra passer par les grandes portes.', NULL, NULL),
 	(81, 162, 160, 1, 1, 'Aller au niveau du croisement de couloirs, avancer un peu et se sera la 1ère salle à votre droite.', 'Passer par la porte.', NULL, NULL),
 	(82, 162, 76, 1, 1, 'Aller au niveau du croisement de couloirs et avancer jusqu\'à la 2ème porte à droite avec le cadre "126 bis".', 'Passer par la porte.', NULL, NULL),
-	(83, 160, 76, 1, 1, 'Regarder le tableau et retournez-vous, la porte est au fond de la salle et mène à la salle S126 bis.', 'La porte qui mène à la salle S126 est à gauche du tableau.', NULL, NULL),
+	(83, 160, 76, 1, 1, 'Regarder le tableau et retournez-vous, la porte est au fond de la salle et mène à la salle S126 bis.', 'La porte qui mène à la salle S126 est à gauche du tableau.', '160_76.jpg', '76_160.jpg'),
 	(84, 162, 77, 1, 1, 'Aller au niveau du croisement de couloirs et avancer jusqu\'à la 3ème porte à droite avec le cadre "126 ter".', 'Passer par la porte.', NULL, NULL),
 	(85, 50, 78, 1, 1, 'Aller au niveau du croisement de couloirs, avancer un peu et se sera la 1ère porte à votre gauche.', 'Passer par la porte.', NULL, NULL),
 	(86, 162, 50, 1, 1, 'Aller au croisement de couloirs et se sera le couloir à votre droite.', 'Aller au croisement de couloirs et se sera le couloir à votre gauche.', NULL, NULL),
 	(87, 50, 80, 1, 1, 'Regarder les escaliers et aller à votre gauche, se sera la porte qui est à côté des toilettes.', 'Passer par la porte.', NULL, NULL),
 	(88, 50, 81, 1, 1, 'Regarder les escaliers et aller à votre gauche jusqu\'à voir un mur un peu reculé à droite, il y aura la porte avec le cadre "132".', 'Passer par la porte.', NULL, NULL),
-	(89, 50, 82, 1, 1, 'Regarder les escaliers et aller à votre gauche jusqu\'à la porte qui est au fond et entrer dans la salle.', 'Passer par la porte.', NULL, NULL),
-	(90, 82, 83, 1, 1, 'La porte qui mène à la salle S138 est à côté de l\'ordi du prof.', 'La porte qui mène à la salle S136 est à droite du tableau.', NULL, NULL),
+	(89, 50, 82, 1, 1, 'Regarder les escaliers et aller à votre gauche jusqu\'à la porte qui est au fond et entrer dans la salle.', 'Passer par la porte.', '50_82.jpg', '82_50.jpg'),
+	(90, 82, 83, 1, 1, 'La porte qui mène à la salle S138 est à côté de l\'ordi du prof.', 'La porte qui mène à la salle S136 est à droite du tableau.', '82_83.jpg', '83_82.jpg'),
 	(91, 53, 79, 1, 1, 'Monter les escaliers sans aller à l\'étage superieur, il y aura une porte entre les 2 parties de l\'escalier.', 'Passer par la porte.', NULL, NULL),
 	(92, 162, 123, 1, 1, 'Aller au fond du couloir, il y aura une porte avec des escaliers derrière, monter les escaliers et vous serez à la salle "S242".', 'Passer par la porte.', NULL, NULL),
 	(93, 47, 92, 1, 1, 'Monter dans l\'ascenseur et choisissez l\'étage 2.', 'Monter dans l\'asccenseur et choisissez l\'étage 1.', NULL, NULL),
@@ -138,7 +102,7 @@ INSERT INTO `tbl_connection` (`id`, `location_a_id`, `location_b_id`, `weight`, 
 	(97, 9, 3, 1, 1, 'Passer par les portes coulissantes, se sera vers votre droite.', 'Quand vous serez devant une heure numérique rouge, se sera les portes coulissantes qui seront à votre gauche.', NULL, NULL),
 	(98, 3, 6, 1, 0, 'Avancez jusqu\'à voir une heure numérique rouge, les escaliers seront derrière.', 'Quand vous descendez les escaliers il y aura une heure numérique rouge, se sera le couloir derrière et il faut aller vers votre gauche.', NULL, NULL),
 	(99, 4, 122, 1, 1, 'Quand vous arrivez à un croisement de couloir, aller dans le couloir à votre gauche.', 'Quand vous arrivez à un croisement de couloir, aller dans le couloir à votre droite.', NULL, NULL),
-	(100, 52, 49, 1, 0, 'Aller dans le couloir à votre gauche.', 'Avancer jusqu\'à voir des escaliers à votre droite.', NULL, NULL),
+	(100, 52, 49, 1, 0, 'Aller dans le couloir à votre gauche.', 'Avancer jusqu\'à voir des escaliers à votre droite.', '52_49.jpg', '49_52.jpg'),
 	(101, 49, 55, 1, 1, 'Avancer jusqu\'à l\'escalier qui sera à votre droite, à votre gauche il y aura une grande porte qui est la salle S100.', 'Passer par la porte.', NULL, NULL),
 	(102, 49, 75, 1, 1, 'Si vous êtes au niveau du croisement de couloir, avancer, passer les grandes portes et avancer jusqu\'à avoir un escalier à votre droite. Si vous êtes au niveau des escaliers, regarder les escaliers, retournez-vous et se sera la grande porte.', 'Passer la porte et c\'est le couloir à votre gauche.', NULL, NULL),
 	(103, 162, 75, 1, 1, 'Aller au croisement de couloir et se sera la porte à votre gauche.', 'Passer la porte et se sera le couloir à votre droite.', NULL, NULL),
@@ -149,7 +113,7 @@ INSERT INTO `tbl_connection` (`id`, `location_a_id`, `location_b_id`, `weight`, 
 	(108, 97, 163, 1, 0, 'Après avoir monter les escaliers vous serez dans le couloir secondaire.', 'Si vous êtes au niveau du couloir principal droite les escaliers seront sur votre droite, si vous êtes au niveau d\'une salle les escaliers seront sur votre gauche.', NULL, NULL),
 	(109, 94, 163, 1, 1, 'Aller au bout du couloir et le couloir secondaire sera à voter gauche.', 'Aller au bout du couloir à votre droite quand on regarde les escaliers, se sera le couloir à votre droite.', NULL, NULL),
 	(110, 98, 5, 1, 0, 'Après avoir monter les escaliers vous serez dans la partie gauche de l\'étage 2.', 'Les escaliers sont à votre gauche si vous venez du couloir principal.', NULL, NULL),
-	(111, 92, 5, 1, 1, 'Quand vous sortez de l\'ascenseur vous serez dans la partie gauche de l\'étage 2.', 'L\'ascenseur est en face quand vous venez du couloir principal.', NULL, NULL),
+	(111, 92, 5, 1, 1, 'Quand vous sortez de l\'ascenseur vous serez dans la partie gauche de l\'étage 2.', 'L\'ascenseur est en face quand vous venez du couloir principal.', '92_5.jpg', '5_92.jpg'),
 	(112, 94, 99, 1, 1, 'Si vous êtes au niveau des escaliers c\'est la porte en face. Si vous êtes au bout du couloir aller vers le mileu du couloir principal, il aura des escaliers à votre droite et la salle S200 sera à votre gauche.', 'Le couloir principal droite sera à votre droite.', NULL, NULL),
 	(113, 93, 99, 1, 1, 'Si vous êtes au niveau des escaliers c\'est la porte en face. Si vous êtes au bout du couloir aller vers le milieu du couloir principal, il y aura des escaliers à votre gauche et la salle S200 sera à votre droite.', 'Le couloir principal gauche sera à votre gauche.', NULL, NULL),
 	(114, 93, 100, 1, 1, 'Si vous êtes au niveau des escaliers se sera la 2ème porte. Si vous êtes au niveau du bout du couloir se sera la 11ème porte.', 'Passer par la porte.', NULL, NULL),
@@ -210,9 +174,3 @@ INSERT INTO `tbl_connection` (`id`, `location_a_id`, `location_b_id`, `weight`, 
 	(169, 161, 153, 1, 1, 'Si vous êtes au niveau des escaliers se sera la 7ème porte, si vous êtes au niveau du bout du couloir se sera la 1ère porte.', 'Passer par la porte.', NULL, NULL),
 	(170, 161, 154, 1, 1, 'Aller au bout du couloir et se sera la porte en face de vous.', 'Passer par la porte.', NULL, NULL),
 	(171, 130, 155, 1, 1, 'C\'est la porte à gauche des escaliers.', 'Passer par la porte.', NULL, NULL);
-
-/*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
