@@ -35,10 +35,10 @@ class Connection
     #[ORM\Column(type: Types::TEXT, name: 'instruction_b_to_a')]
     private ?string $instructionBtoA = null;
 
-    #[ORM\Column(length: 255, name: 'image_a_to_b')]
+    #[ORM\Column(length: 255, name: 'image_a_to_b', nullable: true)]
     private ?string $imageAtoB = null;
 
-    #[ORM\Column(length: 255, name: 'image_b_to_a')]
+    #[ORM\Column(length: 255, name: 'image_b_to_a', nullable: true)]
     private ?string $imageBtoA = null;
 
     public function getId(): ?int

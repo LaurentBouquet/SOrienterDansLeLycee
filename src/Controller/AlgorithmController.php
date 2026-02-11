@@ -36,10 +36,10 @@ final class AlgorithmController extends AbstractController
             $pathLocations = $this->dijkstra($graph, $start, $end);
             $pathInstructions = $this->addInstruction($pathLocations);
             $pathImages = $this->addImage($pathInstructions);
-            
+
             // Store path in session
             $request->getSession()->set('path', $pathImages);
-            
+
             return $this->redirectToRoute('app_algo_path', ['path' => $pathImages], Response::HTTP_SEE_OTHER);
         }
 
@@ -49,7 +49,8 @@ final class AlgorithmController extends AbstractController
     }
 
     #[Route('/algo/path', name: 'app_algo_path', methods: ['GET'])]
-    public function path(Request $request): Response {
+    public function path(Request $request): Response
+    {
         $path = $request->getSession()->get('path', []);
 
         return $this->render('algorithm/path.html.twig', [
@@ -57,7 +58,8 @@ final class AlgorithmController extends AbstractController
         ]);
     }
 
-    function dijkstra($graph_array, $source, $target) {
+    function dijkstra($graph_array, $source, $target)
+    {
         $vertices = array();
         $neighbours = array();
         foreach ($graph_array as $edge) {
@@ -78,7 +80,7 @@ final class AlgorithmController extends AbstractController
 
             // TODO - Find faster way to get minimum
             $min = INF;
-            foreach ($Q as $vertex){
+            foreach ($Q as $vertex) {
                 if ($dist[$vertex] < $min) {
                     $min = $dist[$vertex];
                     $u = $vertex;
@@ -110,22 +112,23 @@ final class AlgorithmController extends AbstractController
         return $path;
     }
 
-    function addInstruction($pathLocation) {
+    function addInstruction($pathLocation)
+    {
         $pathInstructions = [];
-        
+
         for ($i = 0; $i < count($pathLocation) - 1; $i++) {
             $currentLocation = $pathLocation[$i];
             $nextLocation = $pathLocation[$i + 1];
-            
+
             $connections = $this->connectionRepository->findAll();
             $instruction = '';
-            
+
             foreach ($connections as $connection) {
                 $locAName = $connection->getLocationA()->getName();
                 $locBName = $connection->getLocationB()->getName();
-                
+
                 if (($locAName === $currentLocation && $locBName === $nextLocation) || ($locAName === $nextLocation && $locBName === $currentLocation)) {
-                    
+
                     if ($locAName === $currentLocation && $locBName === $nextLocation) {
                         $instruction = $connection->getInstructionAtoB();
                     } else {
@@ -133,35 +136,44 @@ final class AlgorithmController extends AbstractController
                     }
                 }
             }
-            
+
             $pathInstructions[] = [
                 'location' => $currentLocation,
                 'instruction' => $instruction,
             ];
         }
-         
+
         $pathInstructions[] = [
             'location' => end($pathLocation),
             'instruction' => null,
         ];
-        
+
         return $pathInstructions;
     }
 
-    function addImage($pathInstruction) {
+    function addImage($pathInstruction)
+    {
         $pathImages = [];
 
-        for ($i = 0; $i < count($pathInstruction); $i++) {
+        for ($i = 0; $i < count($pathInstruction) - 1; $i++) {
             $currentLocation = $pathInstruction[$i]['location'];
+            $nextLocation = $pathInstruction[$i + 1]['location'];
             $currentInstruction = $pathInstruction[$i]['instruction'];
-            
-            $locationName = $pathInstruction[$i]['location'];
 
-            $location = $this->locationRepository->findOneBy(['name' => $locationName]);
+            $connections = $this->connectionRepository->findAll();
             $image = '';
 
-            if ($location) {
-                $image = $location->getImage();
+            foreach ($connections as $connection) {
+                $locAName = $connection->getLocationA()->getName();
+                $locBName = $connection->getLocationB()->getName();
+
+                if (($locAName === $currentLocation && $locBName === $nextLocation) || ($locAName === $nextLocation && $locBName === $currentLocation)) {
+                    if ($locAName === $currentLocation && $locBName === $nextLocation) {
+                        $image = $connection->getImageAtoB();
+                    } else {
+                        $image = $connection->getImageBtoA();
+                    }
+                }
             }
 
             $pathImages[] = [
@@ -171,6 +183,13 @@ final class AlgorithmController extends AbstractController
             ];
         }
 
+        // Add the last location without instruction and location image
+        $pathImages[] = [
+            'location' => end($pathInstruction)['location'],
+            'instruction' => null,
+            'image' => null,
+        ];
+
         return $pathImages;
     }
 
@@ -178,7 +197,7 @@ final class AlgorithmController extends AbstractController
     {
         $connections = $this->connectionRepository->findAll();
         $graph_array = array();
-        
+
         foreach ($connections as $connection) {
             $graph_array[] = array(
                 $connection->getLocationA()->getName(),
@@ -186,7 +205,7 @@ final class AlgorithmController extends AbstractController
                 $connection->getWeight(),
             );
         }
-        
+
         return $graph_array;
     }
 }
