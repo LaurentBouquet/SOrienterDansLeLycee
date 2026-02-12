@@ -31,11 +31,12 @@ final class AlgorithmController extends AbstractController
             $data = $form->getData();
             $start = $data['start']->getName();
             $end = $data['end']->getName();
+            $pmrOnly = (bool) $form->get('pmr')->getData();
 
-            $graph = $this->getGraph();
+            $graph = $this->getGraph($pmrOnly);
             $pathLocations = $this->dijkstra($graph, $start, $end);
-            $pathInstructions = $this->addInstruction($pathLocations);
-            $pathImages = $this->addImage($pathInstructions);
+            $pathInstructions = $this->addInstruction($pathLocations, $pmrOnly);
+            $pathImages = $this->addImage($pathInstructions, $pmrOnly);
 
             // Store path in session
             $request->getSession()->set('path', $pathImages);
@@ -112,15 +113,14 @@ final class AlgorithmController extends AbstractController
         return $path;
     }
 
-    function addInstruction($pathLocation)
+    function addInstruction($pathLocation, bool $pmrOnly = false)
     {
         $pathInstructions = [];
+        $connections = $this->getConnectionsForRouting($pmrOnly);
 
         for ($i = 0; $i < count($pathLocation) - 1; $i++) {
             $currentLocation = $pathLocation[$i];
             $nextLocation = $pathLocation[$i + 1];
-
-            $connections = $this->connectionRepository->findAll();
             $instruction = '';
 
             foreach ($connections as $connection) {
@@ -151,16 +151,15 @@ final class AlgorithmController extends AbstractController
         return $pathInstructions;
     }
 
-    function addImage($pathInstruction)
+    function addImage($pathInstruction, bool $pmrOnly = false)
     {
         $pathImages = [];
+        $connections = $this->getConnectionsForRouting($pmrOnly);
 
         for ($i = 0; $i < count($pathInstruction) - 1; $i++) {
             $currentLocation = $pathInstruction[$i]['location'];
             $nextLocation = $pathInstruction[$i + 1]['location'];
             $currentInstruction = $pathInstruction[$i]['instruction'];
-
-            $connections = $this->connectionRepository->findAll();
             $image = '';
 
             foreach ($connections as $connection) {
@@ -193,9 +192,9 @@ final class AlgorithmController extends AbstractController
         return $pathImages;
     }
 
-    function getGraph()
+    function getGraph(bool $pmrOnly = false)
     {
-        $connections = $this->connectionRepository->findAll();
+        $connections = $this->getConnectionsForRouting($pmrOnly);
         $graph_array = array();
 
         foreach ($connections as $connection) {
@@ -207,5 +206,14 @@ final class AlgorithmController extends AbstractController
         }
 
         return $graph_array;
+    }
+
+    private function getConnectionsForRouting(bool $pmrOnly): array
+    {
+        if ($pmrOnly) {
+            return $this->connectionRepository->findBy(['pmr' => true]);
+        }
+
+        return $this->connectionRepository->findAll();
     }
 }

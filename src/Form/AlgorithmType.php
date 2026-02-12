@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class AlgorithmType extends AbstractType
 {
@@ -44,6 +45,11 @@ class AlgorithmType extends AbstractType
                     ];
                 },
                 'placeholder' => 'Sélectionner un lieu d\'arrivée',
+            ])
+            ->add('pmr', CheckboxType::class, [
+                'mapped' => false,
+                'required' => false,
+                'label' => 'Itineraire PMR uniquement',
             ])
         ;
     }
