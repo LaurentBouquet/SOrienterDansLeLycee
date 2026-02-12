@@ -64,6 +64,15 @@
 							{{ form_errors(form.end) }}
 						</div>
 
+						{# PMR Option #}
+						<div class="mb-4">
+							<div class="form-check">
+								{{ form_widget(form.pmr, {'attr': {'class': 'form-check-input'}}) }}
+								{{ form_label(form.pmr, null, {'label_attr': {'class': 'form-check-label'}}) }}
+							</div>
+							{{ form_errors(form.pmr) }}
+						</div>
+
 						{# Submit Button #}
 						<div class="d-grid">
 							<button type="submit" class="btn btn-primary btn-lg">
