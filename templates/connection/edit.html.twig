@@ -1,0 +1,122 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration - Modifier connexion{% endblock %}
+
+{% block body %}
+<div class="container py-4">
+
+    {# Page Header #}
+    <div class="mb-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item"><a href="{{ path('app_connection_index') }}">Connexions</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ connection.locationA.name }} ↔ {{ connection.locationB.name }}</li>
+            </ol>
+        </nav>
+        <h1 class="h3 mb-0">
+            <i class="fa-solid fa-pen me-2" aria-hidden="true"></i>
+            Modifier la connexion
+        </h1>
+    </div>
+
+    <div class="row">
+        {# Form Card #}
+        <div class="col-12 col-lg-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fa-solid fa-edit me-2" aria-hidden="true"></i>
+                    Informations de la connexion
+                </div>
+                <div class="card-body">
+                    {{ include('connection/_form.html.twig', {'button_label': 'Enregistrer les modifications'}) }}
+                </div>
+            </div>
+
+            {# Current Images #}
+            {% if connection.imageAtoB or connection.imageBtoA %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fa-solid fa-image me-2" aria-hidden="true"></i>
+                    Images actuelles
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% if connection.imageAtoB %}
+                        <div class="col-12 col-md-6 mb-3 mb-md-0">
+                            <h6 class="text-muted mb-2">
+                                <i class="fa-solid fa-arrow-right me-1" aria-hidden="true"></i>
+                                {{ connection.locationA.name }} → {{ connection.locationB.name }}
+                            </h6>
+                            <img src="/images/connection/{{ connection.imageAtoB }}" 
+                                 alt="Image {{ connection.locationA.name }} vers {{ connection.locationB.name }}"
+                                 class="img-fluid rounded img-thumbnail-md">
+                        </div>
+                        {% endif %}
+                        {% if connection.imageBtoA %}
+                        <div class="col-12 col-md-6">
+                            <h6 class="text-muted mb-2">
+                                <i class="fa-solid fa-arrow-left me-1" aria-hidden="true"></i>
+                                {{ connection.locationB.name }} → {{ connection.locationA.name }}
+                            </h6>
+                            <img src="/images/connection/{{ connection.imageBtoA }}" 
+                                 alt="Image {{ connection.locationB.name }} vers {{ connection.locationA.name }}"
+                                 class="img-fluid rounded img-thumbnail-md">
+                        </div>
+                        {% endif %}
+                    </div>
+                    <p class="text-muted small mt-2 mb-0">
+                        <i class="fa-solid fa-info-circle me-1" aria-hidden="true"></i>
+                        Téléchargez de nouvelles images pour remplacer celles-ci
+                    </p>
+                </div>
+            </div>
+            {% endif %}
+
+            {# Danger Zone #}
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <i class="fa-solid fa-triangle-exclamation me-2" aria-hidden="true"></i>
+                    Zone de danger
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-3">La suppression de cette connexion est irréversible.</p>
+                    {{ include('connection/_delete_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+
+        {# Sidebar #}
+        <div class="col-12 col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa-solid fa-circle-info me-2" aria-hidden="true"></i>
+                    Informations
+                </div>
+                <div class="card-body small">
+                    <dl class="mb-0">
+                        <dt>ID</dt>
+                        <dd class="text-muted">{{ connection.id }}</dd>
+                        <dt>Lieu A</dt>
+                        <dd class="text-muted">{{ connection.locationA.name }}</dd>
+                        <dt>Lieu B</dt>
+                        <dd class="text-muted">{{ connection.locationB.name }}</dd>
+                        <dt>Poids</dt>
+                        <dd class="text-muted">{{ connection.weight }}</dd>
+                        <dt>PMR</dt>
+                        <dd class="text-muted">{{ connection.pmr ? 'Oui' : 'Non' }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Back Link #}
+    <div class="mt-4">
+        <a href="{{ path('app_connection_index') }}" class="text-muted">
+            <i class="fa-solid fa-arrow-left me-1" aria-hidden="true"></i>
+            Retour à la liste
+        </a>
+    </div>
+
+</div>
+{% endblock %}

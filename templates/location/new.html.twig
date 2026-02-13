@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration - Nouveau lieu{% endblock %}
+
+{% block body %}
+<div class="container py-4">
+
+    {# Page Header #}
+    <div class="mb-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item"><a href="{{ path('app_location_index') }}">Lieux</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Nouveau</li>
+            </ol>
+        </nav>
+        <h1 class="h3 mb-0">
+            <i class="fa-solid fa-plus me-2" aria-hidden="true"></i>
+            Créer un nouveau lieu
+        </h1>
+    </div>
+
+    {# Form Card #}
+    <div class="row">
+        <div class="col-12 col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa-solid fa-edit me-2" aria-hidden="true"></i>
+                    Informations du lieu
+                </div>
+                <div class="card-body">
+                    {{ include('location/_form.html.twig', {'button_label': 'Créer le lieu'}) }}
+                </div>
+            </div>
+        </div>
+
+        {# Sidebar Help #}
+        <div class="col-12 col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa-solid fa-circle-info me-2" aria-hidden="true"></i>
+                    Aide
+                </div>
+                <div class="card-body small text-muted">
+                    <p><strong>Nom :</strong> Identifiant unique du lieu (ex: "Salle 101", "Escalier A")</p>
+                    <p><strong>Étage :</strong> Numéro de l'étage (0 = RDC)</p>
+                    <p><strong>Type :</strong> Catégorie du lieu (salle, couloir, escalier...)</p>
+                    <p><strong>Image :</strong> Photo du lieu pour aider à l'identification</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Back Link #}
+    <div class="mt-4">
+        <a href="{{ path('app_location_index') }}" class="text-muted">
+            <i class="fa-solid fa-arrow-left me-1" aria-hidden="true"></i>
+            Retour à la liste
+        </a>
+    </div>
+
+</div>
+{% endblock %}

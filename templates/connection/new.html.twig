@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration - Nouvelle connexion{% endblock %}
+
+{% block body %}
+<div class="container py-4">
+
+    {# Page Header #}
+    <div class="mb-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item"><a href="{{ path('app_connection_index') }}">Connexions</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Nouvelle</li>
+            </ol>
+        </nav>
+        <h1 class="h3 mb-0">
+            <i class="fa-solid fa-plus me-2" aria-hidden="true"></i>
+            Créer une nouvelle connexion
+        </h1>
+    </div>
+
+    {# Form Card #}
+    <div class="row">
+        <div class="col-12 col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa-solid fa-edit me-2" aria-hidden="true"></i>
+                    Informations de la connexion
+                </div>
+                <div class="card-body">
+                    {{ include('connection/_form.html.twig', {'button_label': 'Créer la connexion'}) }}
+                </div>
+            </div>
+        </div>
+
+        {# Sidebar Help #}
+        <div class="col-12 col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa-solid fa-circle-info me-2" aria-hidden="true"></i>
+                    Aide
+                </div>
+                <div class="card-body small text-muted">
+                    <p><strong>Poids :</strong> Distance ou coût du trajet (utilisé par Dijkstra)</p>
+                    <p><strong>PMR :</strong> Accessible aux personnes à mobilité réduite</p>
+                    <p><strong>Lieu A / B :</strong> Les deux extrémités de la connexion</p>
+                    <p><strong>Instructions :</strong> Indications de direction pour chaque sens</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Back Link #}
+    <div class="mt-4">
+        <a href="{{ path('app_connection_index') }}" class="text-muted">
+            <i class="fa-solid fa-arrow-left me-1" aria-hidden="true"></i>
+            Retour à la liste
+        </a>
+    </div>
+
+</div>
+{% endblock %}

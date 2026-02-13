@@ -1,17 +1,82 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr" data-bs-theme="light">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
-
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}S'Orienter Dans Le Lycée{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>🧭</text></svg>">
+        {% block stylesheets %}{% endblock %}
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
     <body>
+        {% block navbar %}
+            <header class="py-3">
+                <div class="container">
+                    <div class="d-flex align-items-center gap-2">
+                        <a href="{{ path('app_index') }}" class="btn btn-outline-secondary btn-sm">
+                            <i class="fa-solid fa-house me-1" aria-hidden="true"></i>
+                            Accueil
+                        </a>
+                        <div class="d-flex align-items-center gap-2 ms-auto">
+                            {# Dark Mode Toggle #}
+                            <button 
+                                type="button" 
+                                class="btn btn-outline-secondary btn-sm" 
+                                id="theme-toggle"
+                                aria-label="Basculer le mode sombre"
+                                title="Changer de thème"
+                            >
+                                <i class="fa-solid fa-moon" aria-hidden="true"></i>
+                            </button>
+
+                            {% if app.user %}
+                                {% if is_granted('ROLE_PROF') %}
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-solid fa-cog me-1" aria-hidden="true"></i>
+                                            Administration
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            {% if is_granted('ROLE_ADMIN') %}
+                                                <li>
+                                                    <a class="dropdown-item" href="{{ path('app_user_index') }}">
+                                                        <i class="fa-solid fa-users me-2" aria-hidden="true"></i>
+                                                        Gestion des utilisateurs
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                            <li>
+                                                <a class="dropdown-item" href="{{ path('app_location_index') }}">
+                                                    <i class="fa-solid fa-location-dot me-2" aria-hidden="true"></i>
+                                                    Gestion des lieux
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="{{ path('app_connection_index') }}">
+                                                    <i class="fa-solid fa-diagram-project me-2" aria-hidden="true"></i>
+                                                    Gestion des connexions
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                                <a href="{{ logout_path() }}" class="btn btn-outline-secondary btn-sm">
+                                    <i class="fa-solid fa-sign-out-alt me-1" aria-hidden="true"></i>
+                                    Déconnexion
+                                </a>
+                            {% else %}
+                                <a href="{{ path('app_login') }}" class="btn btn-outline-secondary btn-sm">
+                                    <i class="fa-solid fa-user me-1" aria-hidden="true"></i>
+                                    Espace admin
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </header>
+        {% endblock %}
         {% block body %}{% endblock %}
     </body>
 </html>

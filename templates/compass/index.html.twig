@@ -3,124 +3,94 @@
 {% block title %}Boussole{% endblock %}
 
 {% block body %}
-<style>
-    body {
-        background: #f8f9fa;
-        font-family: Arial, sans-serif;
-    }
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
 
-    .container {
-        margin-top: 50px;
-        text-align: center;
-    }
+            {# Page Header #}
+            <div class="text-center mb-4">
+                <h1 class="h3">
+                    <i class="fa-solid fa-compass me-2" aria-hidden="true"></i>
+                    Boussole
+                </h1>
+                <p class="text-muted">Orientez-vous dans le bâtiment</p>
+            </div>
 
-    .compass-wrapper {
-        position: relative;
-        width: 280px;
-        height: 280px;
-        margin: 20px auto;
-    }
+            {# Compass Card #}
+            <div class="card">
+                <div class="card-body text-center py-5">
+                    <div class="compass-wrapper mb-4">
+                        <img id="compass-bg"
+                             src="{{ asset('images/compass_bg.png') }}"
+                             class="compass-bg"
+                             alt="Fond boussole">
+                        <img src="{{ asset('images/compass_arrow.png') }}"
+                             class="compass-arrow"
+                             alt="Flèche boussole">
+                    </div>
 
-    .compass-bg {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        transition: transform 0.2s linear;
-    }
+                    <p id="status" class="text-muted mb-2">En attente des capteurs…</p>
+                    <p id="directions" class="h4 fw-bold mb-4">--</p>
 
-    .compass-arrow {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        height: 120px;
-        transform: translate(-50%, -50%);
-    }
+                    <button id="enableCompass" class="btn btn-primary">
+                        <i class="fa-solid fa-location-crosshairs me-2" aria-hidden="true"></i>
+                        Activer la boussole
+                    </button>
+                </div>
+            </div>
 
-    #status {
-        margin-top: 15px;
-        font-size: 14px;
-        color: #555;
-    }
+            {# Back Link #}
+            <div class="text-center mt-4">
+                <a href="{{ path('app_index') }}" class="text-muted">
+                    <i class="fa-solid fa-arrow-left me-1" aria-hidden="true"></i>
+                    Retour à l'accueil
+                </a>
+            </div>
 
-    .directions {
-        margin-top: 10px;
-        font-size: 16px;
-        font-weight: bold;
-    }
-</style>
-
-<div class="container">
-    <h1>Boussole</h1>
-
-    <div class="compass-wrapper">
-        <img
-            id="compass-bg"
-            src="{{ asset('images/compass_bg.png') }}"
-            class="compass-bg"
-            alt="Fond boussole"
-        >
-
-        <img
-            src="{{ asset('images/compass_arrow.png') }}"
-            class="compass-arrow"
-            alt="Flèche boussole"
-        >
+        </div>
     </div>
-
-    <div id="status">En attente des capteurs…</div>
-    <div class="directions" id="directions">--</div>
-    <button id="enableCompass">Activer la boussole</button>
 </div>
 
 <script>
-if (event.webkitCompassHeading !== undefined) { 
     const compassBg = document.getElementById('compass-bg');
     const status = document.getElementById('status');
     const directionsEl = document.getElementById('directions');
     const btn = document.getElementById('enableCompass');
-    
+
     let lastHeading = null;
     const smoothing = 0.15;
-    
-    // Fonction utilitaire : normaliser l'angle
+
     function normalize(angle) {
         return (angle + 360) % 360;
     }
-    
-    // Fonction utilitaire : calculer le plus court angle pour le lissage
+
     function shortestAngle(from, to) {
         let diff = to - from;
         if (diff > 180) diff -= 360;
         if (diff < -180) diff += 360;
         return diff;
     }
-    
-    // Convertit l'angle en lettres N/E/S/O
+
     function headingToDirection(angle) {
-        const dirs = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+        const dirs = ['N', 'NE', 'E', 'SE', 'S', 'SO', 'O', 'NO'];
         const index = Math.round(angle / 45) % 8;
         return dirs[index];
     }
-    
-    // Fonction pour mettre à jour la boussole
+
     function updateCompass(heading) {
         if (lastHeading !== null) {
             const delta = shortestAngle(lastHeading, heading);
             heading = lastHeading + delta * smoothing;
         }
-    
+
         lastHeading = normalize(heading);
         compassBg.style.transform = `rotate(${-lastHeading}deg)`;
-    
+
         status.textContent = `Nord approx. : ${lastHeading.toFixed(1)}°`;
         directionsEl.textContent = headingToDirection(lastHeading);
     }
-    
-    // Activation de la boussole
+
     btn.addEventListener('click', async () => {
-        // iOS permission
         if (
             typeof DeviceOrientationEvent !== 'undefined' &&
             typeof DeviceOrientationEvent.requestPermission === 'function'
@@ -131,21 +101,22 @@ if (event.webkitCompassHeading !== undefined) {
                 return;
             }
         }
-            // fallback : deviceorientation classique
-            window.addEventListener('deviceorientation', (event) => {
-                let heading = null;
-    
-                // iOS
-                if (event.webkitCompassHeading !== undefined) {
-                    heading = event.webkitCompassHeading;
-                } 
-    
-                if (heading !== null) updateCompass(heading);
-                else status.textContent = 'Capteur non disponible';
-            }, true);
+
+        window.addEventListener('deviceorientation', (event) => {
+            let heading = null;
+
+            if (event.webkitCompassHeading !== undefined) {
+                heading = event.webkitCompassHeading;
+            }
+
+            if (heading !== null) {
+                updateCompass(heading);
+            } else {
+                status.textContent = 'Capteur non disponible';
+            }
+        }, true);
+
         btn.style.display = 'none';
     });
-}
 </script>
-
 {% endblock %}

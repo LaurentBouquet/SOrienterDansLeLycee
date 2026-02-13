@@ -1,3 +1,289 @@
+/* ==========================================================================
+   S'Orienter Dans Le Lycée - Bootstrap 5.3 Theme Customization
+   ========================================================================== */
+
+/* ==========================================================================
+   1. Bootstrap CSS Variable Overrides (Light Mode)
+   
+   Using Bootstrap 5.3 native theming system via :root
+   These variables integrate directly with Bootstrap components
+   ========================================================================== */
+
+:root,
+[data-bs-theme="light"] {
+    /* Body */
+    --bs-body-bg: #f2fcfb;
+    --bs-body-color: #373f57;
+
+    /* Primary color */
+    --bs-primary: #12a3e4;
+    --bs-primary-rgb: 18, 163, 228;
+
+    /* Secondary color */
+    --bs-secondary: #adb6d1;
+    --bs-secondary-rgb: 173, 182, 209;
+
+    /* Border color */
+    --bs-border-color: #d0d3da;
+
+    /* Heading and secondary text colors */
+    --bs-heading-color: #010e32;
+    --bs-secondary-color: #9c9c9b;
+
+    /* Card styling */
+    --bs-card-bg: #ffffff;
+    --bs-card-border-color: transparent;
+    --bs-card-border-radius: 0.75rem;
+    --bs-card-box-shadow: 0 2px 8px rgba(1, 14, 50, 0.08);
+
+    /* Link colors (derived from primary) */
+    --bs-link-color: #12a3e4;
+    --bs-link-color-rgb: 18, 163, 228;
+    --bs-link-hover-color: #0e82b6;
+    --bs-link-hover-color-rgb: 14, 130, 182;
+
+    /* Focus ring */
+    --bs-focus-ring-color: rgba(18, 163, 228, 0.25);
+
+    /* Border radius */
+    --bs-border-radius: 0.375rem;
+    --bs-border-radius-lg: 0.75rem;
+}
+
+/* ==========================================================================
+   1b. Bootstrap CSS Variable Overrides (Dark Mode)
+   
+   Dark theme using Bootstrap 5.3 native data-bs-theme system
+   Variables automatically cascade to all Bootstrap components
+   ========================================================================== */
+
+[data-bs-theme="dark"] {
+    /* Body - dark background with light text */
+    --bs-body-bg: #010e32;
+    --bs-body-color: #d0d3da;
+
+    /* Primary color - lighter variant for dark backgrounds */
+    --bs-primary: #50aed5;
+    --bs-primary-rgb: 80, 174, 213;
+
+    /* Secondary color - muted dark tone */
+    --bs-secondary: #373f57;
+    --bs-secondary-rgb: 55, 63, 87;
+
+    /* Border color - subtle dark border */
+    --bs-border-color: #1b244a;
+
+    /* Heading and secondary text colors */
+    --bs-heading-color: #f2fcfb;
+    --bs-secondary-color: #9c9c9b;
+
+    /* Card styling - dark card background */
+    --bs-card-bg: #1b244a;
+    --bs-card-border-color: transparent;
+    --bs-card-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+    /* Link colors (lighter primary for contrast) */
+    --bs-link-color: #50aed5;
+    --bs-link-color-rgb: 80, 174, 213;
+    --bs-link-hover-color: #7ec4e3;
+    --bs-link-hover-color-rgb: 126, 196, 227;
+
+    /* Focus ring - adjusted for dark mode */
+    --bs-focus-ring-color: rgba(80, 174, 213, 0.35);
+
+    /* Form inputs */
+    --bs-tertiary-bg: #1b244a;
+
+    /* Emphasis colors for better readability */
+    --bs-emphasis-color: #f2fcfb;
+}
+
+/* ==========================================================================
+   2. Typography
+   
+   Keep Bootstrap default font stack
+   Adjust line-height and heading weights
+   ========================================================================== */
+
 body {
-    background-color: skyblue;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    font-weight: 600;
+    color: var(--bs-heading-color);
+}
+
+/* ==========================================================================
+   3. Card Component Enhancements
+   
+   - 12px border-radius
+   - Subtle shadow
+   - No heavy borders
+   ========================================================================== */
+
+.card {
+    border-radius: var(--bs-card-border-radius);
+    box-shadow: var(--bs-card-box-shadow);
+    border: 1px solid var(--bs-card-border-color);
+}
+
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid var(--bs-border-color);
+    font-weight: 600;
+    color: var(--bs-heading-color);
+}
+
+.card-footer {
+    background-color: transparent;
+    border-top: 1px solid var(--bs-border-color);
+}
+
+/* ==========================================================================
+   4. Button Refinements
+   
+   Using Bootstrap's native primary color variables
+   ========================================================================== */
+
+.btn {
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   5. Form Enhancements
+   
+   Focus states using primary color
+   ========================================================================== */
+
+.form-control:focus,
+.form-select:focus {
+    border-color: rgba(var(--bs-primary-rgb), 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.15);
+}
+
+.form-label {
+    font-weight: 500;
+    color: var(--bs-heading-color);
+}
+
+/* ==========================================================================
+   6. Table Refinements
+   ========================================================================== */
+
+.table thead th {
+    font-weight: 600;
+    color: var(--bs-heading-color);
+}
+
+/* ==========================================================================
+   7. Alert Refinements
+   ========================================================================== */
+
+.alert {
+    border: none;
+}
+
+/* ==========================================================================
+   8. Navbar Refinements
+   ========================================================================== */
+
+.navbar {
+    box-shadow: var(--bs-card-box-shadow);
+}
+
+.navbar-brand {
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   9. Page-Specific Components
+   ========================================================================== */
+
+/* Compass Component */
+.compass-wrapper {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin: 0 auto;
+}
+
+.compass-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.2s linear;
+}
+
+.compass-arrow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 120px;
+    transform: translate(-50%, -50%);
+}
+
+/* ==========================================================================
+   10. Layout Utilities
+   ========================================================================== */
+
+/* Consistent min-heights for content areas */
+.content-area-sm {
+    min-height: 300px;
+}
+
+.content-area-md {
+    min-height: 400px;
+}
+
+.content-area-lg {
+    min-height: 500px;
+}
+
+/* Image thumbnails in tables/lists */
+.img-thumbnail-sm {
+    max-width: 60px;
+    max-height: 40px;
+    object-fit: cover;
+}
+
+.img-thumbnail-md {
+    max-width: 300px;
+    max-height: 200px;
+    object-fit: cover;
+}
+
+/* Image preview (for file upload forms) */
+.img-preview {
+    max-width: 256px;
+    height: auto;
+    display: none;
+}
+
+/* Step card images */
+.img-step {
+    height: 180px;
+    object-fit: cover;
+}
+
+/* ==========================================================================
+   11. Bootstrap Extensions (using native variables)
+   ========================================================================== */
+
+/* Soft primary background utility */
+.bg-primary-soft {
+    background-color: rgba(var(--bs-primary-rgb), 0.15);
+}
+
+/* Badge with body-secondary background border fix */
+.badge.bg-body-secondary {
+    border: 1px solid var(--bs-border-color);
+}
+
+/* Danger border for cards (e.g., delete zones) */
+.card.border-danger {
+    border: 1px solid var(--bs-danger);
 }

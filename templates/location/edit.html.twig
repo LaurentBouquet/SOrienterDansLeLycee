@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration - Modifier {{ location.name }}{% endblock %}
+
+{% block body %}
+<div class="container py-4">
+
+    {# Page Header #}
+    <div class="mb-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item"><a href="{{ path('app_location_index') }}">Lieux</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ location.name }}</li>
+            </ol>
+        </nav>
+        <h1 class="h3 mb-0">
+            <i class="fa-solid fa-pen me-2" aria-hidden="true"></i>
+            Modifier le lieu
+        </h1>
+    </div>
+
+    <div class="row">
+        {# Form Card #}
+        <div class="col-12 col-lg-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fa-solid fa-edit me-2" aria-hidden="true"></i>
+                    Informations du lieu
+                </div>
+                <div class="card-body">
+                    {{ include('location/_form.html.twig', {'button_label': 'Enregistrer les modifications'}) }}
+                </div>
+            </div>
+
+            {# Current Image #}
+            {% if location.imageUrl %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fa-solid fa-image me-2" aria-hidden="true"></i>
+                    Image actuelle
+                </div>
+                <div class="card-body">
+                    <img src="{{ location.imageUrl }}" 
+                         alt="Image actuelle de {{ location.name }}"
+                         class="img-fluid rounded img-thumbnail-md">
+                    <p class="text-muted small mt-2 mb-0">
+                        <i class="fa-solid fa-info-circle me-1" aria-hidden="true"></i>
+                        Téléchargez une nouvelle image pour remplacer celle-ci
+                    </p>
+                </div>
+            </div>
+            {% endif %}
+
+            {# Danger Zone #}
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <i class="fa-solid fa-triangle-exclamation me-2" aria-hidden="true"></i>
+                    Zone de danger
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-3">La suppression est irréversible. Les connexions liées seront également supprimées.</p>
+                    {{ include('location/_delete_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+
+        {# Sidebar #}
+        <div class="col-12 col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa-solid fa-circle-info me-2" aria-hidden="true"></i>
+                    Informations
+                </div>
+                <div class="card-body small">
+                    <dl class="mb-0">
+                        <dt>ID</dt>
+                        <dd class="text-muted">{{ location.id }}</dd>
+                        <dt>Étage</dt>
+                        <dd class="text-muted">{{ location.floor }}</dd>
+                        <dt>Type</dt>
+                        <dd class="text-muted">{{ location.type }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Back Link #}
+    <div class="mt-4">
+        <a href="{{ path('app_location_index') }}" class="text-muted">
+            <i class="fa-solid fa-arrow-left me-1" aria-hidden="true"></i>
+            Retour à la liste
+        </a>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+    {{ form_widget(form) }}
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-check me-2" aria-hidden="true"></i>
+            {{ button_label|default('Enregistrer') }}
+        </button>
+    </div>
+{{ form_end(form) }}
