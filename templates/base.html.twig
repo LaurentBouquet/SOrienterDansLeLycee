@@ -32,26 +32,36 @@
                             </button>
 
                             {% if app.user %}
-                                <div class="dropdown">
-                                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa-solid fa-cog me-1" aria-hidden="true"></i>
-                                        Administration
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        <li>
-                                            <a class="dropdown-item" href="{{ path('app_location_index') }}">
-                                                <i class="fa-solid fa-location-dot me-2" aria-hidden="true"></i>
-                                                Gestion des lieux
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="{{ path('app_connection_index') }}">
-                                                <i class="fa-solid fa-diagram-project me-2" aria-hidden="true"></i>
-                                                Gestion des connexions
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                {% if is_granted('ROLE_PROF') %}
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-solid fa-cog me-1" aria-hidden="true"></i>
+                                            Administration
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            {% if is_granted('ROLE_ADMIN') %}
+                                                <li>
+                                                    <a class="dropdown-item" href="{{ path('app_user_index') }}">
+                                                        <i class="fa-solid fa-users me-2" aria-hidden="true"></i>
+                                                        Gestion des utilisateurs
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                            <li>
+                                                <a class="dropdown-item" href="{{ path('app_location_index') }}">
+                                                    <i class="fa-solid fa-location-dot me-2" aria-hidden="true"></i>
+                                                    Gestion des lieux
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="{{ path('app_connection_index') }}">
+                                                    <i class="fa-solid fa-diagram-project me-2" aria-hidden="true"></i>
+                                                    Gestion des connexions
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                {% endif %}
                                 <a href="{{ logout_path() }}" class="btn btn-outline-secondary btn-sm">
                                     <i class="fa-solid fa-sign-out-alt me-1" aria-hidden="true"></i>
                                     Déconnexion
