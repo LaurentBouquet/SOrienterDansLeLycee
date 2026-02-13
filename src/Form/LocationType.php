@@ -18,6 +18,7 @@ class LocationType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'required' => true,
+                'label' => 'Nom du lieu :',
             ])
             ->add('floor', ChoiceType::class, [
                 'required' => true,
@@ -28,6 +29,7 @@ class LocationType extends AbstractType
                     'Deuxième étage' => 2,
                     'Troisième étage' => 3,
                 ],
+                'label' => 'Étage :',
             ])
             ->add('type', ChoiceType::class, [
                 'required' => true,
@@ -38,9 +40,11 @@ class LocationType extends AbstractType
                     'Ascenseur' => 'ELEVATOR',
                     'Entrée/Sortie' => 'ENTRANCE_EXIT',
                 ],
+                'label' => 'Type de lieu :',
             ])
             ->add('reference', TextType::class, [
                 'required' => false,
+                'label' => 'Référence (facultatif) :',
             ])
             ->add('imageA', FileType::class, [
                 'mapped' => false,
