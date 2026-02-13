@@ -41,7 +41,7 @@ final class AlgorithmController extends AbstractController
             // Store path in session
             $request->getSession()->set('path', $pathImages);
 
-            return $this->redirectToRoute('app_algo_path', ['path' => $pathImages], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_algo_path');
         }
 
         return $this->render('algorithm/new.html.twig', [
@@ -178,15 +178,20 @@ final class AlgorithmController extends AbstractController
             $pathImages[] = [
                 'location' => $currentLocation,
                 'instruction' => $currentInstruction,
+                'imageType' => 'connection',
                 'image' => $image,
             ];
         }
+
+        $lastLocation = end($pathInstruction)['location'];
+        $lastLocationImage = $this->locationRepository->findOneBy(['name' => $lastLocation])->getImage();
 
         // Add the last location without instruction and location image
         $pathImages[] = [
             'location' => end($pathInstruction)['location'],
             'instruction' => null,
-            'image' => null,
+            'imageType' => 'location',
+            'image' => $lastLocationImage,
         ];
 
         return $pathImages;

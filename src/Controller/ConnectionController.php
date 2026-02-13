@@ -11,8 +11,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/connection')]
+#[IsGranted('ROLE_PROF')]
 final class ConnectionController extends AbstractController
 {
     #[Route(name: 'app_connection_index', methods: ['GET'])]
