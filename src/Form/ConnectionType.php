@@ -7,6 +7,7 @@ use App\Entity\Connection;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -17,7 +18,7 @@ class ConnectionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('pmr')
+            /* 
             ->add('floorA', ChoiceType::class, [
                 'choices' => [
                     'Sous-sol' => -1,
@@ -44,6 +45,7 @@ class ConnectionType extends AbstractType
                 // 'expanded' => true,
                 // 'multiple' => false, // Mettre à true pour des cases à cocher 
             ])
+                */
             ->add('locationA', EntityType::class, [
                 'class' => Location::class,
                 'choice_label' => 'name',
@@ -54,6 +56,7 @@ class ConnectionType extends AbstractType
                     ];
                 },
                 'placeholder' => 'Sélectionner un lieu de départ',
+                'label' => 'Lieu de départ :',
             ])
             ->add('locationB', EntityType::class, [
                 'class' => Location::class,
@@ -65,9 +68,20 @@ class ConnectionType extends AbstractType
                     ];
                 },
                 'placeholder' => 'Sélectionner un lieu d\'arrivée',
+                'label' => 'Lieu d\'arrivée :',
             ])
-            ->add('instructionAtoB')
-            ->add('instructionBtoA')
+            ->add('pmr', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Accessible PMR :',
+            ])
+            ->add('instructionAtoB', null, [
+                'required' => false,
+                'label' => 'Instructions de A vers B :',
+            ])
+            ->add('instructionBtoA', null, [
+                'required' => false,
+                'label' => 'Instructions de B vers A :',
+            ])
             ->add('weight', ChoiceType::class, [
                 'choices' => [
                     'Marche' => 5,
@@ -75,6 +89,7 @@ class ConnectionType extends AbstractType
                     'Escalier' => 10,
                 ],
                 'placeholder' => 'Sélectionner un type de connexion',
+                'label' => 'Type de connexion :',
             ])
             ->add('imageAtoB', FileType::class, [
                 'mapped' => false,
@@ -87,7 +102,7 @@ class ConnectionType extends AbstractType
                         ],
                         'mimeTypesMessage' => 'Veuillez télécharger une image valide',
                     ])
-                ],   
+                ],
             ])
             ->add('imageBtoA', FileType::class, [
                 'mapped' => false,
@@ -100,7 +115,7 @@ class ConnectionType extends AbstractType
                         ],
                         'mimeTypesMessage' => 'Veuillez télécharger une image valide',
                     ])
-                ],   
+                ],
             ])
         ;
     }

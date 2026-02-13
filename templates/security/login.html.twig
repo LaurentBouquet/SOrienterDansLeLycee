@@ -94,8 +94,12 @@
                     </div>
                 </div>
 
-                {# Back to Home Link #}
+                {# Links #}
                 <div class="text-center mt-4">
+                    <a href="{{ path('app_register') }}" class="text-muted d-block mb-2">
+                        <i class="fa-solid fa-user-plus me-1" aria-hidden="true"></i>
+                        Créer un compte
+                    </a>
                     <a href="{{ path('app_index') }}" class="text-muted">
                         <i class="fa-solid fa-arrow-left me-1" aria-hidden="true"></i>
                         Retour à l'accueil

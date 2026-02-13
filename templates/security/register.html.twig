@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription - Administration{% endblock %}
+
+{% block body %}
+<main class="min-vh-100 d-flex align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-4">
+
+                {# Logo / Brand #}
+                <div class="text-center mb-4">
+                    <i class="fa-solid fa-compass fa-3x text-primary mb-3" aria-hidden="true"></i>
+                    <h1 class="h4">S'Orienter Dans Le Lycée</h1>
+                    <p class="text-muted small">Espace administration</p>
+                </div>
+
+                {# Registration Card #}
+                <div class="card">
+                    <div class="card-header text-center">
+                        <i class="fa-solid fa-user-plus me-2" aria-hidden="true"></i>
+                        Inscription
+                    </div>
+                    <div class="card-body p-4">
+
+                        {# Error Alert #}
+                        {{ form_errors(registrationForm) }}
+
+                        {# Registration Form #}
+                        {{ form_start(registrationForm) }}
+                            <div class="mb-3">
+                                <label for="{{ registrationForm.email.vars.id }}" class="form-label">
+                                    <i class="fa-solid fa-envelope me-1" aria-hidden="true"></i>
+                                    Adresse email
+                                </label>
+                                {{ form_widget(registrationForm.email, {
+                                    'attr': {
+                                        'class': 'form-control form-control-lg',
+                                        'placeholder': 'admin@example.com'
+                                    }
+                                }) }}
+                                {{ form_errors(registrationForm.email) }}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ registrationForm.plainPassword.vars.id }}" class="form-label">
+                                    <i class="fa-solid fa-key me-1" aria-hidden="true"></i>
+                                    Mot de passe
+                                </label>
+                                {{ form_widget(registrationForm.plainPassword, {
+                                    'attr': {
+                                        'class': 'form-control form-control-lg',
+                                        'placeholder': '••••••••'
+                                    }
+                                }) }}
+                                {{ form_errors(registrationForm.plainPassword) }}
+                            </div>
+
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    {{ form_widget(registrationForm.agreeTerms, {
+                                        'attr': {'class': 'form-check-input'}
+                                    }) }}
+                                    {{ form_label(registrationForm.agreeTerms, null, {
+                                        'label_attr': {'class': 'form-check-label'}
+                                    }) }}
+                                </div>
+                                {{ form_errors(registrationForm.agreeTerms) }}
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fa-solid fa-user-plus me-2" aria-hidden="true"></i>
+                                    S'inscrire
+                                </button>
+                            </div>
+                        {{ form_end(registrationForm) }}
+
+                    </div>
+                </div>
+
+                {# Links #}
+                <div class="text-center mt-4">
+                    <a href="{{ path('app_login') }}" class="text-muted d-block mb-2">
+                        <i class="fa-solid fa-arrow-left me-1" aria-hidden="true"></i>
+                        Retour à la connexion
+                    </a>
+                    <a href="{{ path('app_index') }}" class="text-muted">
+                        <i class="fa-solid fa-home me-1" aria-hidden="true"></i>
+                        Retour à l'accueil
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
